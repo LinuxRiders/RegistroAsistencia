@@ -1,95 +1,55 @@
-import { CheckBox } from "@mui/icons-material";
-import {
-  Box,
-  Button,
-  Card,
-  FormControlLabel,
-  Grid,
-  Paper,
-  TextField,
-  Typography,
-} from "@mui/material";
-import { Link } from "react-router-dom";
+import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { Box, Button, Paper } from "@mui/material";
+import { Link, Outlet } from "react-router-dom";
+import Formulario from "./Formulario";
+import { useState } from "react";
 
 export default function Home() {
+  const [table, setTable] = useState(false);
+
   return (
-    <Box
-      sx={{
-        height: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        textAlign: "center",
-        backgroundColor: "#222",
-        p: 0,
-        m: 0,
-      }}
-    >
-      <Grid
-        container
-        component={Paper}
-        elevation={10}
-        sx={{ width: "50%", p: 3 }}
+    <>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          textAlign: "center",
+          backgroundColor: "#222",
+          p: 10,
+          m: 0,
+        }}
       >
         <Box
+          component={Paper}
+          elevation={10}
           sx={{
-            my: 8,
-            mx: "auto",
+            width: "50%",
+            mxl: "auto",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
+            p: 10,
           }}
         >
-          <Typography component="h1" variant="h5">
-            Sign in
-          </Typography>
-          <Box component="form" noValidate onSubmit="" sx={{ mt: 1 }}>
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              autoFocus
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-            />
-            <FormControlLabel
-              control={<CheckBox value="remember" color="primary" />}
-              label="Remember me"
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Sign In
-            </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link to="">{"Don't have an account? Sign Up"}</Link>
-              </Grid>
-            </Grid>
-          </Box>
+          <Formulario />
         </Box>
-      </Grid>
-    </Box>
+        <Button
+          component={Link}
+          to={table ? "/" : "table"}
+          replace
+          onClick={() => setTable(!table)}
+          variant="contained"
+          fullWidth
+          sx={{ p: 2, width: "auto", my: 2 }}
+        >
+          <ExpandMoreIcon />
+        </Button>
+
+        <Outlet />
+      </Box>
+    </>
   );
 }
