@@ -1,14 +1,24 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
-import Formulario from "./pages/Formulario";
 import Tabla from "./components/Tabla";
+import SignIn from "./pages/Login/SignIn";
+import ProtectedRoute from "./pages/ProtectedRoute";
+import { useAuth } from "./context/AuthProvider";
 
 function App() {
+  const { isAuthenticated } = useAuth();
+
   return (
     <Routes>
-      <Route path="/" element={<Home />}>
-        <Route path="table" element={<Tabla />} />
+      <Route path="login" element={<SignIn />} />
+
+      <Route
+        element={<ProtectedRoute validate={isAuthenticated} to={"login"} />}
+      >
+        <Route path="" element={<Home />}>
+          <Route path="table" element={<Tabla />} />
+        </Route>
       </Route>
     </Routes>
   );
