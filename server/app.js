@@ -1,7 +1,7 @@
 import express from 'express';
 
 import cors from "cors";
-import config from './config/config.js';
+import configs from './config/config.js';
 
 import asistencia from "./routes/asistencia.routes.js";
 
@@ -13,5 +13,5 @@ app.use(express.json());
 
 app.use('/api', asistencia);
 
-app.listen(config.PORT);
-console.log(`Server is running on port ${config.PORT}.`); 
+app.listen(configs.PORT);
+console.log(`Server is running on port ${configs.PORT}.`); 
