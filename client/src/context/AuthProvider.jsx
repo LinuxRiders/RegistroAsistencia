@@ -1,6 +1,10 @@
 import { useContext, createContext, useState, useEffect } from "react";
 
-import { refreshTokenRequest, accessTokenRequest } from "../api/api";
+import {
+  refreshTokenRequest,
+  accessTokenRequest,
+  signOutRequest,
+} from "../api/api";
 
 const AuthContext = createContext({
   isAuthenticated: false,
@@ -89,12 +93,20 @@ export function AuthProvider({ children }) {
     setLoading(false);
   }
 
-  function signOut() {
-    setIsAuthenticated(false);
-    setIsAdmin(false);
-    setaccessToken("");
-    setUser(undefined);
-    localStorage.removeItem("token");
+  async function signOut() {
+    try {
+      const response = await signOutRequest(getRefreshToken());
+      if (response.ok) {
+        setIsAuthenticated(false);
+        setIsAdmin(false);
+        setaccessToken("");
+        setUser(undefined);
+        localStorage.removeItem("token");
+      }
+    } catch (error) {
+      console.log("Auth: ".error);
+      return;
+    }
   }
 
   function saveSessionInfo(userInfo, accessToken, refreshToken) {

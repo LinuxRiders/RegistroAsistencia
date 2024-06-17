@@ -5,6 +5,8 @@ import Tabla from "./components/Tabla";
 import SignIn from "./pages/Login/SignIn";
 import ProtectedRoute from "./pages/ProtectedRoute";
 import { useAuth } from "./context/AuthProvider";
+import UserForm from "./pages/Register/UserForm";
+import Asistencia from "./pages/Asistencia/Asistencia";
 
 function App() {
   const { isAuthenticated } = useAuth();
@@ -17,7 +19,10 @@ function App() {
         element={<ProtectedRoute validate={isAuthenticated} to={"login"} />}
       >
         <Route path="" element={<Home />}>
-          <Route path="table" element={<Tabla />} />
+          <Route path="" element={<Asistencia />}>
+            <Route path="table" element={<Tabla />} />
+          </Route>
+          <Route path="register" element={<UserForm />} />
         </Route>
       </Route>
     </Routes>

@@ -19,7 +19,7 @@ export function authenticate(req, res, next) {
         return res.status(401).json(
             {
                 statusCode: 401,
-                error: 'No Token Provided'
+                error: 'No Token valid'
 
             });
     }

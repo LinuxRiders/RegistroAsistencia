@@ -4,9 +4,19 @@ import { getUserById } from "../models/user.model.js";
 
 export async function createUser(req, res) {
     try {
+
+        // Verificar si el usuario logueado es Admin
+        if (req.user.role != 'admin') {
+            return res.status(400).json(
+                {
+                    statusCode: 400,
+                    error: 'No eres Admin'
+
+                });
+        }
+
         const { usuario, email, password, role = 'registrador' } = req.body;
 
-        console.log(role);
         if (!!!usuario || !!!email || !!!password) {
             return res.status(400).json(
                 {
@@ -33,7 +43,7 @@ export async function createUser(req, res) {
 
         return res.status(200).json({
             statusCode: 200,
-            message: 'Usuario Creado Exitosamente',
+            message: `Usuario ${role} Creado Exitosamente`,
         })
 
     } catch (error) {
