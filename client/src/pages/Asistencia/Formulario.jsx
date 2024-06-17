@@ -6,7 +6,7 @@ import { styled } from "@mui/system";
 import { Alert, Box, Button, TextField, Typography } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { searchUserRequest, registerUserRequest } from "../api/api";
+import { searchUserRequest, registerUserRequest } from "../../api/api";
 
 const FormGrid = styled(Grid)(() => ({
   display: "flex",

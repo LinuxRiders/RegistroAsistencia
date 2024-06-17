@@ -11,15 +11,6 @@ export const accesUserRequest = async (data) =>
         body: JSON.stringify(data)
     });
 
-// export const createUserRequest = async (data) =>
-//     await fetch(`${BASE_URL}/api/signup`, {
-//         method: 'POST',
-//         headers: {
-//             "Content-Type": "application/json",
-//         },
-//         body: JSON.stringify(data)
-//     });
-
 export const refreshTokenRequest = async (refreshToken) => {
     return await fetch(`${BASE_URL}/api/login/refresh-token`, {
         method: 'POST',
@@ -47,6 +38,19 @@ export const signOutRequest = async (refreshToken) => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${refreshToken}`,
         },
+    });
+};
+
+// --------------------- SECTION REGISTER -----------------------
+
+export const createUserRequest = async (accessToken, data) => {
+    return await fetch(`${BASE_URL}/api/register/user`, {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify(data)
     });
 };
 
