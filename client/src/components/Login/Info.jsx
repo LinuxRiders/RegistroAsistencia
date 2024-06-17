@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import InstagramIcon from "@mui/icons-material/Instagram";
 
-export default function Info() {
+export default function Info({ sx = {} }) {
   return (
     <Box
       sx={{
@@ -17,6 +17,7 @@ export default function Info() {
         textAlign: "center",
         position: "relative",
         zIndex: 1,
+        ...sx, // Aplicar estilos adicionales desde las props
       }}
     >
       <Typography

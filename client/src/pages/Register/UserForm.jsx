@@ -75,15 +75,6 @@ export default function UserForm() {
 
   return (
     <Grid container spacing={3}>
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          width: "100%",
-          mb: 3,
-          justifyContent: "center",
-        }}
-      ></Box>
       {!!errorResponse && (
         <FormGrid item xs={12}>
           <Alert severity="error" sx={{ width: "90%", my: 2, mx: "auto" }}>
