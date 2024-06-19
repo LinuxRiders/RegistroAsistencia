@@ -15,7 +15,6 @@ const FormGrid = styled(Grid)(() => ({
 
 export default function Formulario() {
   const [nroDoc, setNroDoc] = useState("");
-  const [table, setTable] = useState("participantes");
 
   const [email, setEmail] = useState("");
   const [nombres, setNombres] = useState("");
@@ -26,8 +25,6 @@ export default function Formulario() {
   const [universidad, setUniversidad] = useState("");
 
   const [user, setUser] = useState({});
-
-  const [inscrito, setInscrito] = useState("");
 
   const [errorResponse, setErrorResponse] = useState("");
   const [messageResponse, setMessageResponse] = useState("");
@@ -48,7 +45,11 @@ export default function Formulario() {
         setNroDoc("");
       }
 
-      const response = await searchUserRequest({ table, nroDoc, nombres });
+      const response = await searchUserRequest({
+        table: "participantes",
+        nroDoc,
+        nombres,
+      });
 
       const json = await response.json();
 
@@ -101,7 +102,6 @@ export default function Formulario() {
           setTicket("");
           setCapitulo("");
           setAsociacion("");
-          setInscrito("");
           setSede("");
         }
 
@@ -116,22 +116,6 @@ export default function Formulario() {
         <FormGrid item xs={12}>
           <Alert severity="error" sx={{ width: "90%", my: 2, mx: "auto" }}>
             {errorResponse}
-          </Alert>
-        </FormGrid>
-      )}
-
-      {!!messageResponse && (
-        <FormGrid item xs={12}>
-          <Alert severity="success" sx={{ width: "90%", my: 2, mx: "auto" }}>
-            {messageResponse}
-          </Alert>
-        </FormGrid>
-      )}
-
-      {inscrito === "" && consult && (
-        <FormGrid item xs={12}>
-          <Alert severity="error" sx={{ width: "90%", my: 2, mx: "auto" }}>
-            El participante no está Inscrito
           </Alert>
         </FormGrid>
       )}
@@ -167,7 +151,6 @@ export default function Formulario() {
           autoFocus
           value={tipoDoc}
           InputLabelProps={{
-            shrink: Boolean(nombres),
             style: { color: "white" },
           }}
           onChange={(e) => setTipoDoc(e.target.value)}
@@ -188,7 +171,6 @@ export default function Formulario() {
           value={nombres}
           onChange={(e) => setNombres(e.target.value)}
           InputLabelProps={{
-            shrink: Boolean(nombres),
             style: { color: "white" },
           }}
           sx={{
@@ -212,7 +194,6 @@ export default function Formulario() {
           value={apellidos}
           onChange={(e) => setApellidos(e.target.value)}
           InputLabelProps={{
-            shrink: Boolean(nombres),
             style: { color: "white" },
           }}
           sx={{
@@ -236,7 +217,6 @@ export default function Formulario() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           InputLabelProps={{
-            shrink: Boolean(nombres),
             style: { color: "white" },
           }}
           sx={{
@@ -283,7 +263,6 @@ export default function Formulario() {
           autoFocus
           value={universidad}
           InputLabelProps={{
-            shrink: Boolean(nombres),
             style: { color: "white" },
           }}
           sx={{
@@ -306,7 +285,6 @@ export default function Formulario() {
           autoFocus
           value={tipoUni}
           InputLabelProps={{
-            shrink: Boolean(nombres),
             style: { color: "white" },
           }}
           sx={{
@@ -352,7 +330,7 @@ export default function Formulario() {
 
       <FormGrid item xs={6}>
         <Button
-          disabled={inscrito === "" || ticket === 0}
+          // disabled={inscrito === "" || ticket === 0}
           type="submit"
           fullWidth
           variant="contained"
