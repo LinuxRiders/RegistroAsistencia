@@ -1,5 +1,5 @@
 import * as React from "react";
-import { styled, useTheme } from "@mui/material/styles";
+import { styled, useTheme, ThemeProvider, createTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
 import MuiAppBar from "@mui/material/AppBar";
@@ -16,9 +16,25 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
 import UserSettings from "./components/UserSettings";
+import PeopleIcon from '@mui/icons-material/People';
+import AssignmentIcon from '@mui/icons-material/Assignment';
+import TableChartIcon from '@mui/icons-material/TableChart';
+
+// Crear un tema personalizado
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: 'rgba(25, 77, 132, 1)',
+    },
+    secondary: {
+      main: '#ffffff', // Blanco
+    },
+  },
+  typography: {
+    fontFamily: 'Roboto, sans-serif',
+  },
+});
 
 const drawerWidth = 240;
 
@@ -29,6 +45,8 @@ const openedMixin = (theme) => ({
     duration: theme.transitions.duration.enteringScreen,
   }),
   overflowX: "hidden",
+  background: 'rgba(25, 77, 132, 1)',
+  color: theme.palette.secondary.main,
 });
 
 const closedMixin = (theme) => ({
@@ -41,39 +59,32 @@ const closedMixin = (theme) => ({
   [theme.breakpoints.up("sm")]: {
     width: `calc(${theme.spacing(8)} + 1px)`,
   },
+  background: 'rgba(25, 77, 132, 1)',
+  color: theme.palette.secondary.main,
 });
 
 const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   padding: theme.spacing(0, 1),
-  // necessary for content to be below app bar
   ...theme.mixins.toolbar,
 }));
 
 const Drawer = styled(MuiDrawer, {
   shouldForwardProp: (prop) => prop !== "open",
-})(({ theme }) => ({
+})(({ theme, open }) => ({
   width: drawerWidth,
   flexShrink: 0,
   whiteSpace: "nowrap",
   boxSizing: "border-box",
-  variants: [
-    {
-      props: ({ open }) => open,
-      style: {
-        ...openedMixin(theme),
-        "& .MuiDrawer-paper": openedMixin(theme),
-      },
-    },
-    {
-      props: ({ open }) => !open,
-      style: {
-        ...closedMixin(theme),
-        "& .MuiDrawer-paper": closedMixin(theme),
-      },
-    },
-  ],
+  ...(open && {
+    ...openedMixin(theme),
+    "& .MuiDrawer-paper": openedMixin(theme),
+  }),
+  ...(!open && {
+    ...closedMixin(theme),
+    "& .MuiDrawer-paper": closedMixin(theme),
+  }),
 }));
 
 export default function NavBar() {
@@ -89,16 +100,13 @@ export default function NavBar() {
   };
 
   return (
-    <React.Fragment>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
       <Drawer variant="permanent" open={open}>
         <DrawerHeader sx={{ justifyContent: open ? "flex-end" : "center" }}>
           {open ? (
-            <IconButton onClick={handleDrawerClose}>
-              {theme.direction === "rtl" ? (
-                <ChevronRightIcon />
-              ) : (
-                <ChevronLeftIcon />
-              )}
+            <IconButton onClick={handleDrawerClose} sx={{ color: 'white' }}>
+              {theme.direction === "rtl" ? <ChevronRightIcon /> : <ChevronLeftIcon />}
             </IconButton>
           ) : (
             <IconButton
@@ -106,7 +114,7 @@ export default function NavBar() {
               aria-label="open drawer"
               onClick={handleDrawerOpen}
             >
-              <MenuIcon />
+              <MenuIcon sx={{ color: 'white' }} />
             </IconButton>
           )}
         </DrawerHeader>
@@ -115,23 +123,24 @@ export default function NavBar() {
           sx={{
             display: "flex",
             flexDirection: "column",
-            alignItems: "center", // Centra horizontalmente
-            justifyContent: "center", // Centra verticalmente
+            alignItems: "center",
+            justifyContent: "center",
             textAlign: "center",
+            color: 'white',
           }}
         >
           <ListItem
             disablePadding
             sx={{
               display: "flex",
-              alignItems: "center", // Centra horizontalmente
-              justifyContent: "center", // Centra verticalmente
+              alignItems: "center",
+              justifyContent: "center",
             }}
           >
             <UserSettings /> {/* Contenido que deseas centrar */}
           </ListItem>
 
-          {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
+          {["Usuarios", "Registro", "Tabla"].map((text, index) => (
             <ListItem key={text} disablePadding sx={{ display: "block" }}>
               <ListItemButton
                 sx={[
@@ -153,6 +162,7 @@ export default function NavBar() {
                     {
                       minWidth: 0,
                       justifyContent: "center",
+                      color: 'white',
                     },
                     open
                       ? {
@@ -163,7 +173,7 @@ export default function NavBar() {
                         },
                   ]}
                 >
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                  {index === 0 ? <PeopleIcon /> : index === 1 ? <AssignmentIcon /> : <TableChartIcon />}
                 </ListItemIcon>
                 <ListItemText
                   primary={text}
@@ -171,6 +181,7 @@ export default function NavBar() {
                     open
                       ? {
                           opacity: 1,
+                          color: 'white',
                         }
                       : {
                           opacity: 0,
@@ -181,59 +192,8 @@ export default function NavBar() {
             </ListItem>
           ))}
         </List>
-        <Divider />
-        <List>
-          {["All mail", "Trash", "Spam"].map((text, index) => (
-            <ListItem key={text} disablePadding sx={{ display: "block" }}>
-              <ListItemButton
-                sx={[
-                  {
-                    minHeight: 48,
-                    px: 2.5,
-                  },
-                  open
-                    ? {
-                        justifyContent: "initial",
-                      }
-                    : {
-                        justifyContent: "center",
-                      },
-                ]}
-              >
-                <ListItemIcon
-                  sx={[
-                    {
-                      minWidth: 0,
-                      justifyContent: "center",
-                    },
-                    open
-                      ? {
-                          mr: 3,
-                        }
-                      : {
-                          mr: "auto",
-                        },
-                  ]}
-                >
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText
-                  primary={text}
-                  sx={[
-                    open
-                      ? {
-                          opacity: 1,
-                        }
-                      : {
-                          opacity: 0,
-                        },
-                  ]}
-                />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
+        {/* <Divider /> */}
       </Drawer>
-    </React.Fragment>
+    </ThemeProvider>
   );
 }
