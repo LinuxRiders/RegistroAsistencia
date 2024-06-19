@@ -34,13 +34,6 @@ export default function Asistencia() {
         >
           Create User
         </Button>
-        <Button
-            onClick={() => setShowFormP(!showFormP)}           //Here
-            variant="contained"
-            sx={{ mb: 3 , backgroundColor: "#2B4E77"}}
-          >
-            {showFormP ? "➤ Cambiar a Participante" : "➤ Cambiar a Ponente"}
-          </Button> 
         <Box
           component={Paper}
           elevation={10}
@@ -54,6 +47,13 @@ export default function Asistencia() {
             p: 10,
           }}
         >
+          <Button
+            onClick={() => setShowFormP(!showFormP)} //Here
+            variant="contained"
+            sx={{ backgroundColor: "#2B4E77" }}
+          >
+            {showFormP ? "➤ Cambiar a Participante" : "➤ Cambiar a Ponente"}
+          </Button>
           <Box
             sx={{
               display: "flex",
@@ -109,11 +109,8 @@ export default function Asistencia() {
               </Typography>
             </Box>
           </Box>
-          
-          
 
           {showFormP ? <FormularioP /> : <Formulario />}
-          
         </Box>
         <Button
           component={Link}

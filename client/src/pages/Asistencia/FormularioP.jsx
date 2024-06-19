@@ -111,19 +111,39 @@ const FormGrid = styled(Grid)(() => ({
             autoFocus
             value={nroDoc}
             onChange={(e) => setnroDoc(e.target.value)}
-            InputProps={{
-                style: { color: "#F3F3F3" },
-            }}
             InputLabelProps={{
-                style: { color: "#F3F3F3" },
-                
+              style: { color: "white" },
+              sx: {
+                backgroundColor: 'transparent',
+                padding: '0 4px',
+                transform: 'translate(14px, 12px) scale(1)',
+                '&.MuiInputLabel-shrink': {
+                  transform: 'translate(14px, -6px) scale(0.75)',
+                  backgroundColor: 'transparent',
+                }
+              },
+            }}
+            InputProps={{
+              sx: {
+                color: "white",
+                '& .MuiOutlinedInput-notchedOutline': {
+                  borderColor: 'white',
+                },
+                '&:hover .MuiOutlinedInput-notchedOutline': {
+                  borderColor: 'white',
+                },
+                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                  borderColor: 'white',
+                },
+              },
             }}
             sx={{
-                animation: "slideInRight 1s forwards",
-                "@keyframes slideInRight": {
+              borderRadius: "8px",
+              animation: "slideInRight 1s forwards",
+              "@keyframes slideInRight": {
                 "0%": { transform: "translateX(-100%)" },
                 "100%": { transform: "translateX(0)" },
-                },
+              },
             }}
             />
         </FormGrid>
@@ -136,12 +156,31 @@ const FormGrid = styled(Grid)(() => ({
             type="number"
             autoFocus
             value={celular}
-            InputProps={{
-                style: { color: "#F3F3F3" },
-            }}
             InputLabelProps={{
-                style: { color: "#F3F3F3" },
-                
+              style: { color: "white" },
+              sx: {
+                backgroundColor: 'transparent',
+                padding: '0 4px',
+                transform: 'translate(14px, 12px) scale(1)',
+                '&.MuiInputLabel-shrink': {
+                  transform: 'translate(14px, -6px) scale(0.75)',
+                  backgroundColor: 'transparent',
+                }
+              },
+            }}
+            InputProps={{
+              sx: {
+                color: "white",
+                '& .MuiOutlinedInput-notchedOutline': {
+                  borderColor: 'white',
+                },
+                '&:hover .MuiOutlinedInput-notchedOutline': {
+                  borderColor: 'white',
+                },
+                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                  borderColor: 'white',
+                },
+              },
             }}
             onChange={(e) => setCelular(e.target.value)}
             sx={{
@@ -162,12 +201,31 @@ const FormGrid = styled(Grid)(() => ({
             autoFocus
             value={nombres}
             onChange={(e) => setNombres(e.target.value)}
-            InputProps={{
-                style: { color: "#F3F3F3" },
-            }}
             InputLabelProps={{
-                style: { color: "#F3F3F3" },
-                
+              style: { color: "white" },
+              sx: {
+                backgroundColor: 'transparent',
+                padding: '0 4px',
+                transform: 'translate(14px, 12px) scale(1)',
+                '&.MuiInputLabel-shrink': {
+                  transform: 'translate(14px, -6px) scale(0.75)',
+                  backgroundColor: 'transparent',
+                }
+              },
+            }}
+            InputProps={{
+              sx: {
+                color: "white",
+                '& .MuiOutlinedInput-notchedOutline': {
+                  borderColor: 'white',
+                },
+                '&:hover .MuiOutlinedInput-notchedOutline': {
+                  borderColor: 'white',
+                },
+                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                  borderColor: 'white',
+                },
+              },
             }}
             sx={{
                 animation: "fadeInUp 2s ease-in-out",
@@ -187,12 +245,31 @@ const FormGrid = styled(Grid)(() => ({
             autoFocus
             value={apellidos}
             onChange={(e) => setApellidos(e.target.value)}
-            InputProps={{
-                style: { color: "#F3F3F3" },
-            }}
             InputLabelProps={{
-                style: { color: "#F3F3F3" },
-                
+              style: { color: "white" },
+              sx: {
+                backgroundColor: 'transparent',
+                padding: '0 4px',
+                transform: 'translate(14px, 12px) scale(1)',
+                '&.MuiInputLabel-shrink': {
+                  transform: 'translate(14px, -6px) scale(0.75)',
+                  backgroundColor: 'transparent',
+                }
+              },
+            }}
+            InputProps={{
+              sx: {
+                color: "white",
+                '& .MuiOutlinedInput-notchedOutline': {
+                  borderColor: 'white',
+                },
+                '&:hover .MuiOutlinedInput-notchedOutline': {
+                  borderColor: 'white',
+                },
+                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                  borderColor: 'white',
+                },
+              },
             }}
             sx={{
                 animation: "fadeInUp 2s ease-in-out",
@@ -212,12 +289,31 @@ const FormGrid = styled(Grid)(() => ({
             autoFocus
             value={present}
             onChange={(e) => setPresent(e.target.value)}
-            InputProps={{
-                style: { color: "#F3F3F3" },
-            }}
             InputLabelProps={{
-                style: { color: "#F3F3F3" },
-                
+              style: { color: "white" },
+              sx: {
+                backgroundColor: 'transparent',
+                padding: '0 4px',
+                transform: 'translate(14px, 12px) scale(1)',
+                '&.MuiInputLabel-shrink': {
+                  transform: 'translate(14px, -6px) scale(0.75)',
+                  backgroundColor: 'transparent',
+                }
+              },
+            }}
+            InputProps={{
+              sx: {
+                color: "white",
+                '& .MuiOutlinedInput-notchedOutline': {
+                  borderColor: 'white',
+                },
+                '&:hover .MuiOutlinedInput-notchedOutline': {
+                  borderColor: 'white',
+                },
+                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                  borderColor: 'white',
+                },
+              },
             }}
             sx={{
                 animation: "fadeInUp 2s ease-in-out",
@@ -236,12 +332,31 @@ const FormGrid = styled(Grid)(() => ({
             label="Grado"
             autoFocus
             value={grado}
-            InputProps={{
-                style: { color: "#F3F3F3" },
-            }}
             InputLabelProps={{
-                style: { color: "#F3F3F3" },
-                
+              style: { color: "white" },
+              sx: {
+                backgroundColor: 'transparent',
+                padding: '0 4px',
+                transform: 'translate(14px, 12px) scale(1)',
+                '&.MuiInputLabel-shrink': {
+                  transform: 'translate(14px, -6px) scale(0.75)',
+                  backgroundColor: 'transparent',
+                }
+              },
+            }}
+            InputProps={{
+              sx: {
+                color: "white",
+                '& .MuiOutlinedInput-notchedOutline': {
+                  borderColor: 'white',
+                },
+                '&:hover .MuiOutlinedInput-notchedOutline': {
+                  borderColor: 'white',
+                },
+                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                  borderColor: 'white',
+                },
+              },
             }}
             onChange={(e) => setGrado(e.target.value)}
             sx={{
@@ -261,12 +376,31 @@ const FormGrid = styled(Grid)(() => ({
             label="Tipo Universidad"
             autoFocus
             value={tipoUni}
-            InputProps={{
-                style: { color: "#F3F3F3" },
-            }}
             InputLabelProps={{
-                style: { color: "#F3F3F3" },
-                
+              style: { color: "white" },
+              sx: {
+                backgroundColor: 'transparent',
+                padding: '0 4px',
+                transform: 'translate(14px, 12px) scale(1)',
+                '&.MuiInputLabel-shrink': {
+                  transform: 'translate(14px, -6px) scale(0.75)',
+                  backgroundColor: 'transparent',
+                }
+              },
+            }}
+            InputProps={{
+              sx: {
+                color: "white",
+                '& .MuiOutlinedInput-notchedOutline': {
+                  borderColor: 'white',
+                },
+                '&:hover .MuiOutlinedInput-notchedOutline': {
+                  borderColor: 'white',
+                },
+                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                  borderColor: 'white',
+                },
+              },
             }}
             onChange={(e) => setTipoUni(e.target.value)}
             sx={{
@@ -286,12 +420,31 @@ const FormGrid = styled(Grid)(() => ({
             label="Denominación"
             autoFocus
             value={denominacion}
-            InputProps={{
-                style: { color: "#F3F3F3" },
-            }}
             InputLabelProps={{
-                style: { color: "#F3F3F3" },
-                
+              style: { color: "white" },
+              sx: {
+                backgroundColor: 'transparent',
+                padding: '0 4px',
+                transform: 'translate(14px, 12px) scale(1)',
+                '&.MuiInputLabel-shrink': {
+                  transform: 'translate(14px, -6px) scale(0.75)',
+                  backgroundColor: 'transparent',
+                }
+              },
+            }}
+            InputProps={{
+              sx: {
+                color: "white",
+                '& .MuiOutlinedInput-notchedOutline': {
+                  borderColor: 'white',
+                },
+                '&:hover .MuiOutlinedInput-notchedOutline': {
+                  borderColor: 'white',
+                },
+                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                  borderColor: 'white',
+                },
+              },
             }}
             onChange={(e) => setDenominacion(e.target.value)}
             sx={{
@@ -311,12 +464,31 @@ const FormGrid = styled(Grid)(() => ({
             label="Universidad"
             autoFocus
             value={universidad}
-            InputProps={{
-                style: { color: "#F3F3F3" },
-            }}
             InputLabelProps={{
-                style: { color: "#F3F3F3" },
-                
+              style: { color: "white" },
+              sx: {
+                backgroundColor: 'transparent',
+                padding: '0 4px',
+                transform: 'translate(14px, 12px) scale(1)',
+                '&.MuiInputLabel-shrink': {
+                  transform: 'translate(14px, -6px) scale(0.75)',
+                  backgroundColor: 'transparent',
+                }
+              },
+            }}
+            InputProps={{
+              sx: {
+                color: "white",
+                '& .MuiOutlinedInput-notchedOutline': {
+                  borderColor: 'white',
+                },
+                '&:hover .MuiOutlinedInput-notchedOutline': {
+                  borderColor: 'white',
+                },
+                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                  borderColor: 'white',
+                },
+              },
             }}
             onChange={(e) => setUniversidad(e.target.value)} //Question Here
             sx={{

@@ -15,7 +15,6 @@ const FormGrid = styled(Grid)(() => ({
 
 export default function Formulario() {
   const [nroDoc, setNroDoc] = useState("");
-  const [table, setTable] = useState("participantes");
 
   const [email, setEmail] = useState("");
   const [nombres, setNombres] = useState("");
@@ -26,8 +25,6 @@ export default function Formulario() {
   const [universidad, setUniversidad] = useState("");
 
   const [user, setUser] = useState({});
-
-  const [inscrito, setInscrito] = useState("");
 
   const [errorResponse, setErrorResponse] = useState("");
   const [messageResponse, setMessageResponse] = useState("");
@@ -48,7 +45,11 @@ export default function Formulario() {
         setNroDoc("");
       }
 
-      const response = await searchUserRequest({ table, nroDoc, nombres });
+      const response = await searchUserRequest({
+        table: "participantes",
+        nroDoc,
+        nombres,
+      });
 
       const json = await response.json();
 
@@ -101,7 +102,6 @@ export default function Formulario() {
           setTicket("");
           setCapitulo("");
           setAsociacion("");
-          setInscrito("");
           setSede("");
         }
 
@@ -120,22 +120,6 @@ export default function Formulario() {
         </FormGrid>
       )}
 
-      {!!messageResponse && (
-        <FormGrid item xs={12}>
-          <Alert severity="success" sx={{ width: "90%", my: 2, mx: "auto" }}>
-            {messageResponse}
-          </Alert>
-        </FormGrid>
-      )}
-
-      {inscrito === "" && consult && (
-        <FormGrid item xs={12}>
-          <Alert severity="error" sx={{ width: "90%", my: 2, mx: "auto" }}>
-            El participante no está Inscrito
-          </Alert>
-        </FormGrid>
-      )}
-
       <FormGrid item xs={12} md={6}>
         <TextField
           required
@@ -144,16 +128,39 @@ export default function Formulario() {
           autoFocus
           value={nroDoc}
           onChange={(e) => setNroDoc(e.target.value)}
-          InputProps={{
-            style: { color: "white" },
-          }}
           InputLabelProps={{
             style: { color: "white" },
+            sx: {
+              backgroundColor: 'transparent',
+              padding: '0 4px',
+              transform: 'translate(14px, 12px) scale(1)',
+              '&.MuiInputLabel-shrink': {
+                transform: 'translate(14px, -6px) scale(0.75)',
+                backgroundColor: 'transparent',
+              }
+            },
+          }}
+          InputProps={{
+            sx: {
+              color: "white",
+              '& .MuiOutlinedInput-notchedOutline': {
+                borderColor: 'white',
+              },
+              '&:hover .MuiOutlinedInput-notchedOutline': {
+                borderColor: 'white',
+              },
+              '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                borderColor: 'white',
+              },
+            },
           }}
           sx={{
-            border: "0.5px solid white",
-            borderRadius: "8px", //Here
+            borderRadius: "8px",
             animation: "slideInRight 1s forwards",
+            "@keyframes slideInRight": {
+              "0%": { transform: "translateX(-100%)" },
+              "100%": { transform: "translateX(0)" },
+            },
           }}
         />
       </FormGrid>
@@ -163,18 +170,42 @@ export default function Formulario() {
           required
           fullWidth
           label="Tipo Documento Identidad"
-          // type="number"
           autoFocus
           value={tipoDoc}
-          InputLabelProps={{
-            shrink: Boolean(nombres),
-            style: { color: "white" },
-          }}
           onChange={(e) => setTipoDoc(e.target.value)}
+          InputLabelProps={{
+            style: { color: "white" },
+            sx: {
+              backgroundColor: 'transparent',
+              padding: '0 4px',
+              transform: 'translate(14px, 12px) scale(1)',
+              '&.MuiInputLabel-shrink': {
+                transform: 'translate(14px, -6px) scale(0.75)',
+                backgroundColor: 'transparent',
+              }
+            },
+          }}
+          InputProps={{
+            sx: {
+              color: "white",
+              '& .MuiOutlinedInput-notchedOutline': {
+                borderColor: 'white',
+              },
+              '&:hover .MuiOutlinedInput-notchedOutline': {
+                borderColor: 'white',
+              },
+              '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                borderColor: 'white',
+              },
+            },
+          }}
           sx={{
-            border: "0.5px solid white",
-            borderRadius: "8px", //Here
+            borderRadius: "8px",
             animation: "slideInRight 1s forwards",
+            "@keyframes slideInRight": {
+              "0%": { transform: "translateX(-100%)" },
+              "100%": { transform: "translateX(0)" },
+            },
           }}
         />
       </FormGrid>
@@ -188,12 +219,33 @@ export default function Formulario() {
           value={nombres}
           onChange={(e) => setNombres(e.target.value)}
           InputLabelProps={{
-            shrink: Boolean(nombres),
             style: { color: "white" },
+            sx: {
+              backgroundColor: 'transparent',
+              padding: '0 4px',
+              transform: 'translate(14px, 12px) scale(1)',
+              '&.MuiInputLabel-shrink': {
+                transform: 'translate(14px, -6px) scale(0.75)',
+                backgroundColor: 'transparent',
+              }
+            },
+          }}
+          InputProps={{
+            sx: {
+              color: "white",
+              '& .MuiOutlinedInput-notchedOutline': {
+                borderColor: 'white',
+              },
+              '&:hover .MuiOutlinedInput-notchedOutline': {
+                borderColor: 'white',
+              },
+              '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                borderColor: 'white',
+              },
+            },
           }}
           sx={{
-            border: "0.5px solid white",
-            borderRadius: "8px", //Here
+            borderRadius: "8px",
             animation: "fadeInUp 2s ease-in-out",
             "@keyframes fadeInUp": {
               "0%": { opacity: 0, transform: "translateY(20px)" },
@@ -212,12 +264,33 @@ export default function Formulario() {
           value={apellidos}
           onChange={(e) => setApellidos(e.target.value)}
           InputLabelProps={{
-            shrink: Boolean(nombres),
             style: { color: "white" },
+            sx: {
+              backgroundColor: 'transparent',
+              padding: '0 4px',
+              transform: 'translate(14px, 12px) scale(1)',
+              '&.MuiInputLabel-shrink': {
+                transform: 'translate(14px, -6px) scale(0.75)',
+                backgroundColor: 'transparent',
+              }
+            },
+          }}
+          InputProps={{
+            sx: {
+              color: "white",
+              '& .MuiOutlinedInput-notchedOutline': {
+                borderColor: 'white',
+              },
+              '&:hover .MuiOutlinedInput-notchedOutline': {
+                borderColor: 'white',
+              },
+              '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                borderColor: 'white',
+              },
+            },
           }}
           sx={{
-            border: "0.5px solid white",
-            borderRadius: "8px", //Here
+            borderRadius: "8px",
             animation: "fadeInUp 2s ease-in-out",
             "@keyframes fadeInUp": {
               "0%": { opacity: 0, transform: "translateY(20px)" },
@@ -236,12 +309,33 @@ export default function Formulario() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           InputLabelProps={{
-            shrink: Boolean(nombres),
             style: { color: "white" },
+            sx: {
+              backgroundColor: 'transparent',
+              padding: '0 4px',
+              transform: 'translate(14px, 12px) scale(1)',
+              '&.MuiInputLabel-shrink': {
+                transform: 'translate(14px, -6px) scale(0.75)',
+                backgroundColor: 'transparent',
+              }
+            },
+          }}
+          InputProps={{
+            sx: {
+              color: "white",
+              '& .MuiOutlinedInput-notchedOutline': {
+                borderColor: 'white',
+              },
+              '&:hover .MuiOutlinedInput-notchedOutline': {
+                borderColor: 'white',
+              },
+              '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                borderColor: 'white',
+              },
+            },
           }}
           sx={{
-            border: "0.5px solid white",
-            borderRadius: "8px", //Here
+            borderRadius: "8px",
             animation: "fadeInUp 2s ease-in-out",
             "@keyframes fadeInUp": {
               "0%": { opacity: 0, transform: "translateY(20px)" },
@@ -259,13 +353,35 @@ export default function Formulario() {
           type="number"
           autoFocus
           value={telefono}
+          onChange={(e) => setTelefono(e.target.value)}
           InputLabelProps={{
-            shrink: Boolean(nombres),
             style: { color: "white" },
+            sx: {
+              backgroundColor: 'transparent',
+              padding: '0 4px',
+              transform: 'translate(14px, 12px) scale(1)',
+              '&.MuiInputLabel-shrink': {
+                transform: 'translate(14px, -6px) scale(0.75)',
+                backgroundColor: 'transparent',
+              }
+            },
+          }}
+          InputProps={{
+            sx: {
+              color: "white",
+              '& .MuiOutlinedInput-notchedOutline': {
+                borderColor: 'white',
+              },
+              '&:hover .MuiOutlinedInput-notchedOutline': {
+                borderColor: 'white',
+              },
+              '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                borderColor: 'white',
+              },
+            },
           }}
           sx={{
-            border: "0.5px solid white",
-            borderRadius: "8px", //Here
+            borderRadius: "8px",
             animation: "slideInRight 2s ease-in-out",
             "@keyframes slideInRight": {
               "0%": { transform: "translateX(-100%)" },
@@ -275,6 +391,7 @@ export default function Formulario() {
         />
       </FormGrid>
 
+
       <FormGrid item xs={12} md={8}>
         <TextField
           required
@@ -282,13 +399,35 @@ export default function Formulario() {
           label="Universidad"
           autoFocus
           value={universidad}
+          onChange={(e) => setUniversidad(e.target.value)}
           InputLabelProps={{
-            shrink: Boolean(nombres),
             style: { color: "white" },
+            sx: {
+              backgroundColor: 'transparent',
+              padding: '0 4px',
+              transform: 'translate(14px, 12px) scale(1)',
+              '&.MuiInputLabel-shrink': {
+                transform: 'translate(14px, -6px) scale(0.75)',
+                backgroundColor: 'transparent',
+              }
+            },
+          }}
+          InputProps={{
+            sx: {
+              color: "white",
+              '& .MuiOutlinedInput-notchedOutline': {
+                borderColor: 'white',
+              },
+              '&:hover .MuiOutlinedInput-notchedOutline': {
+                borderColor: 'white',
+              },
+              '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                borderColor: 'white',
+              },
+            },
           }}
           sx={{
-            border: "0.5px solid white",
-            borderRadius: "8px", //Here
+            borderRadius: "8px",
             animation: "slideInLeft 2s ease-in-out",
             "@keyframes slideInLeft": {
               "0%": { transform: "translateX(100%)" },
@@ -305,13 +444,35 @@ export default function Formulario() {
           label="Tipo Universidad"
           autoFocus
           value={tipoUni}
+          onChange={(e) => setTipoUni(e.target.value)}
           InputLabelProps={{
-            shrink: Boolean(nombres),
             style: { color: "white" },
+            sx: {
+              backgroundColor: 'transparent',
+              padding: '0 4px',
+              transform: 'translate(14px, 12px) scale(1)',
+              '&.MuiInputLabel-shrink': {
+                transform: 'translate(14px, -6px) scale(0.75)',
+                backgroundColor: 'transparent',
+              }
+            },
+          }}
+          InputProps={{
+            sx: {
+              color: "white",
+              '& .MuiOutlinedInput-notchedOutline': {
+                borderColor: 'white',
+              },
+              '&:hover .MuiOutlinedInput-notchedOutline': {
+                borderColor: 'white',
+              },
+              '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                borderColor: 'white',
+              },
+            },
           }}
           sx={{
-            border: "0.5px solid white",
-            borderRadius: "8px", //Here
+            borderRadius: "8px",
             animation: "slideInRight 2s ease-in-out",
             "@keyframes slideInRight": {
               "0%": { transform: "translateX(-100%)" },
@@ -352,7 +513,7 @@ export default function Formulario() {
 
       <FormGrid item xs={6}>
         <Button
-          disabled={inscrito === "" || ticket === 0}
+          // disabled={inscrito === "" || ticket === 0}
           type="submit"
           fullWidth
           variant="contained"
