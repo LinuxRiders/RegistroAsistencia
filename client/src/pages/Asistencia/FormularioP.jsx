@@ -5,6 +5,7 @@ import { Alert, Box, Button, TextField, Typography } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { searchUserRequest, registerUserRequest } from "../../api/api";
+import { useAuth } from "../../context/AuthProvider";
 
 const FormGrid = styled(Grid)(() => ({
   display: "flex",
@@ -26,13 +27,11 @@ export default function FormularioP() {
 
   const [errorResponse, setErrorResponse] = useState("");
   const [messageResponse, setMessageResponse] = useState("");
-  const [consult, setConsult] = useState(false);
 
-  const goTo = useNavigate();
+  const { getUser } = useAuth();
 
   async function handleConsult(e) {
     e.preventDefault();
-    setConsult(true);
     setMessageResponse("");
 
     try {
@@ -67,8 +66,6 @@ export default function FormularioP() {
       setErrorResponse(json.error);
 
       if (json.error) {
-        setConsult(false);
-
         setNroDoc("");
         setNombres("");
         setApellidos("");
@@ -99,28 +96,62 @@ export default function FormularioP() {
     e.preventDefault();
 
     try {
-      const response = await registerUserRequest({ ticket, nroDoc });
+      const response = await registerUserRequest({
+        table: "ponentes",
+        data: {
+          denom,
+          grado,
+          apellidos,
+          nombres,
+          nroDoc,
+          telefono,
+          tipoUni,
+          universidad,
+          presentacion,
+        },
+        id: getUser().id,
+      });
+
       const json = await response.json();
 
       if (response.ok) {
-        setMessageResponse(json.message);
+        console.log("Ponente Registado");
+
+        setMessageResponse("Ponente Registado");
+
         if (json.message) {
-          setCelular("");
+          setNroDoc("");
           setNombres("");
           setApellidos("");
-          setPresent("");
+          setTelefono("");
+          setPresentacion("");
           setGrado("");
           setTipoUni("");
-          setDenominacion("");
+          setDenom("");
           setUniversidad("");
         }
-        goTo("/", { replace: true });
       }
     } catch (error) {}
   }
 
   return (
     <Grid container spacing={3}>
+      {!!errorResponse && (
+        <FormGrid item xs={12}>
+          <Alert severity="error" sx={{ width: "90%", my: 2, mx: "auto" }}>
+            {errorResponse}
+          </Alert>
+        </FormGrid>
+      )}
+
+      {!!messageResponse && (
+        <FormGrid item xs={12}>
+          <Alert severity="success" sx={{ width: "90%", my: 2, mx: "auto" }}>
+            {messageResponse}
+          </Alert>
+        </FormGrid>
+      )}
+
       <Box
         sx={{
           display: "flex",

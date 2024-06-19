@@ -7,6 +7,7 @@ import { Alert, Box, Button, TextField, Typography } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { searchUserRequest, registerUserRequest } from "../../api/api";
+import { useAuth } from "../../context/AuthProvider";
 
 const FormGrid = styled(Grid)(() => ({
   display: "flex",
@@ -28,13 +29,11 @@ export default function Formulario() {
 
   const [errorResponse, setErrorResponse] = useState("");
   const [messageResponse, setMessageResponse] = useState("");
-  const [consult, setConsult] = useState(false);
 
-  const goTo = useNavigate();
+  const { getUser } = useAuth();
 
   async function handleConsult(e) {
     e.preventDefault();
-    setConsult(true);
     setMessageResponse("");
 
     try {
@@ -68,8 +67,6 @@ export default function Formulario() {
       setErrorResponse(json.error);
 
       if (json.error) {
-        setConsult(false);
-
         setNroDoc("");
         setEmail("");
         setNombres("");
@@ -98,26 +95,38 @@ export default function Formulario() {
     e.preventDefault();
 
     try {
-      const response = await registerUserRequest({ ticket, nroDoc });
+      const response = await registerUserRequest({
+        table: "participantes",
+        data: {
+          email,
+          apellidos,
+          nombres,
+          tipoDoc,
+          nroDoc,
+          telefono,
+          tipoUni,
+          universidad,
+        },
+        id: getUser().id,
+      });
 
       const json = await response.json();
 
       if (response.ok) {
-        console.log("Usuario Registado");
+        console.log("Participante Registado");
 
-        setMessageResponse(json.message);
+        setMessageResponse("Participante Registado");
 
         if (json.message) {
-          setConsult(false);
-
+          setNroDoc("");
+          setEmail("");
           setNombres("");
-          setTicket("");
-          setCapitulo("");
-          setAsociacion("");
-          setSede("");
+          setApellidos("");
+          setTipoDoc("");
+          setTelefono("");
+          setTipoUni("");
+          setUniversidad("");
         }
-
-        goTo("/", { replace: true });
       }
     } catch (error) {}
   }
@@ -128,6 +137,14 @@ export default function Formulario() {
         <FormGrid item xs={12}>
           <Alert severity="error" sx={{ width: "90%", my: 2, mx: "auto" }}>
             {errorResponse}
+          </Alert>
+        </FormGrid>
+      )}
+
+      {!!messageResponse && (
+        <FormGrid item xs={12}>
+          <Alert severity="success" sx={{ width: "90%", my: 2, mx: "auto" }}>
+            {messageResponse}
           </Alert>
         </FormGrid>
       )}

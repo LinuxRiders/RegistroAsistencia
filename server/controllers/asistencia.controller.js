@@ -71,23 +71,23 @@ export const getUsers = async (req, res) => {
 export const registerUser = async (req, res) => {
     try {
 
-        const { ticket, DocIdentidad } = req.body;
+        const { table, data, id } = req.body;
 
-        if (!!!DocIdentidad || !!!ticket) {
+        if (!!!table || !!!data || !!!id) {
             return res.status(400).json(
                 {
                     statusCode: 400,
-                    error: 'Campo Requerido'
+                    error: `Campo Requerido ${table} o ${data} o ${id}`
 
                 });
         }
 
-        await registerUserRequest(ticket, DocIdentidad);
+        await registerUserRequest(table, data, id);
 
         res.status(200).json(
             {
                 statusCode: 200,
-                message: 'Ingeniero Registrado',
+                message: `${table} Registrado`,
             });
     } catch (error) {
         return res.status(500).json({

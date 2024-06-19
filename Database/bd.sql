@@ -61,6 +61,7 @@ CREATE TABLE ponentes(
 
 
 DROP TABLE asistencia;
+select * FROM ponentes;
 select * FROM participantes;
 --  DROP TRIGGER actualizar_asistencia;
 -- TRIGGER
@@ -82,7 +83,9 @@ DELIMITER ;
 
 
 -- PARTICIPANTES
+-- SET SQL_SAFE_UPDATES = 1; Desactivar Safety Mode
 
+-- UPDATE ponentes SET apellidos = UPPER(apellidos); Cambiar a mayusculas
 
 INSERT INTO participantes (id, email, apellidos, nombres, tipoDoc, nroDoc, telefono, tipoUni, universidad) VALUES
 	('1', 'jtejada@unc.edu.pe', 'TEJADA CAMPOS ', 'JORGE NELSON', 'DNI', '26709691', '950082700', 'Público', 'Universidad Nacional de Cajamarca'),
