@@ -8,8 +8,44 @@ export const getUsersRequest = async () => {
 
 
 // Función para buscar un usuario por Doc Identidad
-export const getUserByDNI = async (DNI) => {
-    const [rows] = await pool.query('SELECT * FROM asistencia WHERE DocIdentidad = ?', [DNI]);
+export const getUserByDNI = async (DNI, table) => {
+
+    // Asegúrate de que la tabla sea seguro
+    const validTable = ['participantes', 'ponentes']; // Lista de tablas validos
+
+    if (!validTable.includes(table)) {
+        throw new Error('Invalid table');
+    }
+
+    // Construir dinámicamente la consulta SQL
+    const query = `
+    SELECT * 
+        FROM ${table} 
+        WHERE nroDoc = ?`;
+
+
+    const [rows] = await pool.query(query, [DNI]);
+    return rows[0];
+};
+
+// Función para buscar un usuario por Doc Identidad
+export const getUserByName = async (name, table) => {
+
+    // Asegúrate de que la tabla sea seguro
+    const validTable = ['participantes', 'ponentes']; // Lista de tablas validos
+
+    if (!validTable.includes(table)) {
+        throw new Error('Invalid table');
+    }
+
+    // Construir dinámicamente la consulta SQL
+    const query = `
+    SELECT * 
+        FROM ${table} 
+        WHERE nombres = ?`;
+
+
+    const [rows] = await pool.query(query, [name]);
     return rows[0];
 };
 

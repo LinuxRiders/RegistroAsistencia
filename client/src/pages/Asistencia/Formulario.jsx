@@ -14,14 +14,20 @@ const FormGrid = styled(Grid)(() => ({
 }));
 
 export default function Formulario() {
-  const [nroDoc, setnroDoc] = useState("");
+  const [nroDoc, setNroDoc] = useState("");
+  const [table, setTable] = useState("participantes");
 
+  const [email, setEmail] = useState("");
   const [nombres, setNombres] = useState("");
-  const [ticket, setTicket] = useState("");
-  const [capitulo, setCapitulo] = useState("");
-  const [asociacion, setAsociacion] = useState("");
+  const [apellidos, setApellidos] = useState("");
+  const [tipoDoc, setTipoDoc] = useState("");
+  const [telefono, setTelefono] = useState("");
+  const [tipoUni, setTipoUni] = useState("");
+  const [universidad, setUniversidad] = useState("");
+
+  const [user, setUser] = useState({});
+
   const [inscrito, setInscrito] = useState("");
-  const [sede, setSede] = useState("");
 
   const [errorResponse, setErrorResponse] = useState("");
   const [messageResponse, setMessageResponse] = useState("");
@@ -35,7 +41,14 @@ export default function Formulario() {
     setMessageResponse("");
 
     try {
-      const response = await searchUserRequest({ nroDoc });
+      if (nroDoc != user.nroDoc) {
+        setNombres("");
+      }
+      if (nombres != user.nombres) {
+        setNroDoc("");
+      }
+
+      const response = await searchUserRequest({ table, nroDoc, nombres });
 
       const json = await response.json();
 
@@ -46,21 +59,24 @@ export default function Formulario() {
       if (json.error) {
         setConsult(false);
 
+        setEmail("");
         setNombres("");
-        setTicket("");
-        setCapitulo("");
-        setAsociacion("");
-        setInscrito("");
-        setSede("");
+        setApellidos("");
+        setTipoDoc("");
+        setTelefono("");
+        setTipoUni("");
+        setUniversidad("");
       }
 
       if (json.user) {
-        setNombres(json.user.Nombres);
-        setTicket(json.user.Ticket);
-        setCapitulo(json.user.Capitulo);
-        setAsociacion(json.user.Asociacion);
-        setInscrito(json.user.Inscrito);
-        setSede(json.user.Sede);
+        setEmail(json.user.email);
+        setNombres(json.user.nombres);
+        setApellidos(json.user.apellidos);
+        setTipoDoc(json.user.tipoDoc);
+        setTelefono(json.user.telefono);
+        setTipoUni(json.user.tipoUni);
+        setUniversidad(json.user.universidad);
+        setUser(json.user);
       }
     } catch (error) {}
   }
@@ -96,53 +112,6 @@ export default function Formulario() {
 
   return (
     <Grid container spacing={3}>
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          width: "100%",
-          mb: 3,
-          justifyContent: "center",
-          animation: 'fadeIn 2s ease-in-out',
-          '@keyframes fadeIn': {
-            '0%': { opacity: 0 },
-            '100%': { opacity: 1 }
-          }
-        }}
-      >
-        <img 
-          src="https://i.ibb.co/h7gY1V0/1a.png"
-          alt="Consejo Departamental de Cusco"
-          style={{
-            width: 210,
-            height: "auto",
-            marginRight: 20,
-            marginBottom: 10,
-            animation: 'zoomIn 2s ease-in-out',
-            '@keyframes zoomIn': {
-              '0%': { transform: 'scale(0.8)', opacity: 0 },
-              '100%': { transform: 'scale(1)', opacity: 1 }
-            }
-          }}>
-        </img>
-        <Box sx={{ textAlign: "center" }}>
-          <Typography
-            component="h1"
-            variant="h5"
-            sx={{ fontWeight: "bold", color: "white", animation: 'slideInDown 2s ease-in-out', fontSize: '1.5rem' }}
-          >
-            UNIVERSIDAD ANDINA DEL CUSCO
-          </Typography>
-          <Typography
-            component="h2"
-            variant="h6"
-            sx={{ color: "white", animation: 'slideInUp 2s ease-in-out', fontSize: '1rem' }}
-          >
-            CONTROL DE REGISTRO DE PARTICIPANTE
-          </Typography>
-        </Box>
-      </Box>
-
       {!!errorResponse && (
         <FormGrid item xs={12}>
           <Alert severity="error" sx={{ width: "90%", my: 2, mx: "auto" }}>
@@ -174,16 +143,17 @@ export default function Formulario() {
           label="Documento Identidad"
           autoFocus
           value={nroDoc}
-          onChange={(e) => setnroDoc(e.target.value)}
+          onChange={(e) => setNroDoc(e.target.value)}
           InputProps={{
-            style: { color: 'white' } // Aquí se establece el color del texto de entrada
+            style: { color: "white" }, // Aquí se establece el color del texto de entrada
           }}
           InputLabelProps={{
-            style: { color: 'white' }
+            style: { color: "white" },
           }}
           sx={{
-            border: '0.5px solid white', borderRadius: '8px',//Here
-            animation: 'slideInRight 1s forwards',
+            border: "0.5px solid white",
+            borderRadius: "8px", //Here
+            animation: "slideInRight 1s forwards",
           }}
         />
       </FormGrid>
@@ -192,18 +162,67 @@ export default function Formulario() {
         <TextField
           required
           fullWidth
-          label="Ticket"
-          type="number"
+          label="Tipo Documento Identidad"
+          // type="number"
           autoFocus
-          value={ticket}
+          value={tipoDoc}
           InputLabelProps={{
             shrink: Boolean(nombres),
-            style: { color: 'white' }
+            style: { color: "white" },
           }}
-          onChange={(e) => setTicket(e.target.value)}
+          onChange={(e) => setTipoDoc(e.target.value)}
           sx={{
-            border: '0.5px solid white', borderRadius: '8px',//Here
-            animation: 'slideInRight 1s forwards',
+            border: "0.5px solid white",
+            borderRadius: "8px", //Here
+            animation: "slideInRight 1s forwards",
+          }}
+        />
+      </FormGrid>
+
+      <FormGrid item xs={6}>
+        <TextField
+          required
+          fullWidth
+          label="Nombres"
+          autoFocus
+          value={nombres}
+          onChange={(e) => setNombres(e.target.value)}
+          InputLabelProps={{
+            shrink: Boolean(nombres),
+            style: { color: "white" },
+          }}
+          sx={{
+            border: "0.5px solid white",
+            borderRadius: "8px", //Here
+            animation: "fadeInUp 2s ease-in-out",
+            "@keyframes fadeInUp": {
+              "0%": { opacity: 0, transform: "translateY(20px)" },
+              "100%": { opacity: 1, transform: "translateY(0)" },
+            },
+          }}
+        />
+      </FormGrid>
+
+      <FormGrid item xs={6}>
+        <TextField
+          required
+          fullWidth
+          label="Apellidos"
+          autoFocus
+          value={apellidos}
+          onChange={(e) => setApellidos(e.target.value)}
+          InputLabelProps={{
+            shrink: Boolean(nombres),
+            style: { color: "white" },
+          }}
+          sx={{
+            border: "0.5px solid white",
+            borderRadius: "8px", //Here
+            animation: "fadeInUp 2s ease-in-out",
+            "@keyframes fadeInUp": {
+              "0%": { opacity: 0, transform: "translateY(20px)" },
+              "100%": { opacity: 1, transform: "translateY(0)" },
+            },
           }}
         />
       </FormGrid>
@@ -212,109 +231,92 @@ export default function Formulario() {
         <TextField
           required
           fullWidth
-          label="Apellidos y Nombre"
+          label="Email"
           autoFocus
-          value={nombres}
-          onChange={(e) => setNombres(e.target.value)}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
           InputLabelProps={{
             shrink: Boolean(nombres),
-            style: { color: 'white' }
+            style: { color: "white" },
           }}
           sx={{
-            border: '0.5px solid white', borderRadius: '8px',//Here
-            animation: 'fadeInUp 2s ease-in-out',
-            '@keyframes fadeInUp': {
-              '0%': { opacity: 0, transform: 'translateY(20px)' },
-              '100%': { opacity: 1, transform: 'translateY(0)' }
-            }
+            border: "0.5px solid white",
+            borderRadius: "8px", //Here
+            animation: "fadeInUp 2s ease-in-out",
+            "@keyframes fadeInUp": {
+              "0%": { opacity: 0, transform: "translateY(20px)" },
+              "100%": { opacity: 1, transform: "translateY(0)" },
+            },
           }}
         />
       </FormGrid>
 
-      <FormGrid item xs={12} md={6}>
+      <FormGrid item xs={12} md={12}>
         <TextField
           required
           fullWidth
-          label="Capitulo"
+          label="Telefono"
+          type="number"
           autoFocus
-          value={capitulo}
+          value={telefono}
           InputLabelProps={{
             shrink: Boolean(nombres),
-            style: { color: 'white' }
+            style: { color: "white" },
           }}
           sx={{
-            border: '0.5px solid white', borderRadius: '8px',//Here
-            animation: 'slideInRight 2s ease-in-out',
-            '@keyframes slideInRight': {
-              '0%': { transform: 'translateX(-100%)' },
-              '100%': { transform: 'translateX(0)' }
-            }
+            border: "0.5px solid white",
+            borderRadius: "8px", //Here
+            animation: "slideInRight 2s ease-in-out",
+            "@keyframes slideInRight": {
+              "0%": { transform: "translateX(-100%)" },
+              "100%": { transform: "translateX(0)" },
+            },
           }}
         />
       </FormGrid>
 
-      <FormGrid item xs={12} md={6}>
+      <FormGrid item xs={12} md={8}>
         <TextField
           required
           fullWidth
-          label="Tipo Asociacion"
+          label="Universidad"
           autoFocus
-          value={asociacion}
+          value={universidad}
           InputLabelProps={{
             shrink: Boolean(nombres),
-            style: { color: 'white' }
+            style: { color: "white" },
           }}
           sx={{
-            border: '0.5px solid white', borderRadius: '8px',//Here
-            animation: 'slideInLeft 2s ease-in-out',
-            '@keyframes slideInLeft': {
-              '0%': { transform: 'translateX(100%)' },
-              '100%': { transform: 'translateX(0)' }
-            }
+            border: "0.5px solid white",
+            borderRadius: "8px", //Here
+            animation: "slideInLeft 2s ease-in-out",
+            "@keyframes slideInLeft": {
+              "0%": { transform: "translateX(100%)" },
+              "100%": { transform: "translateX(0)" },
+            },
           }}
         />
       </FormGrid>
 
-      <FormGrid item xs={12} md={6}>
+      <FormGrid item xs={12} md={4}>
         <TextField
           required
           fullWidth
-          label="Inscrito"
+          label="Tipo Universidad"
           autoFocus
-          value={inscrito}
+          value={tipoUni}
           InputLabelProps={{
             shrink: Boolean(nombres),
-            style: { color: 'white' }
+            style: { color: "white" },
           }}
           sx={{
-            border: '0.5px solid white', borderRadius: '8px',//Here
-            animation: 'slideInRight 2s ease-in-out',
-            '@keyframes slideInRight': {
-              '0%': { transform: 'translateX(-100%)' },
-              '100%': { transform: 'translateX(0)' }
-            }
-          }}
-        />
-      </FormGrid>
-
-      <FormGrid item xs={12} md={6}>
-        <TextField
-          required
-          fullWidth
-          label="Sede"
-          autoFocus
-          value={sede}
-          InputLabelProps={{
-            shrink: Boolean(nombres),
-            style: { color: 'white' }
-          }}
-          sx={{
-            border: '0.5px solid white', borderRadius: '8px',//Here
-            animation: 'slideInLeft 2s ease-in-out',
-            '@keyframes slideInLeft': {
-              '0%': { transform: 'translateX(100%)' },
-              '100%': { transform: 'translateX(0)' }
-            }
+            border: "0.5px solid white",
+            borderRadius: "8px", //Here
+            animation: "slideInRight 2s ease-in-out",
+            "@keyframes slideInRight": {
+              "0%": { transform: "translateX(-100%)" },
+              "100%": { transform: "translateX(0)" },
+            },
           }}
         />
       </FormGrid>
@@ -330,16 +332,17 @@ export default function Formulario() {
             width: "50%",
             mx: "auto",
             backgroundColor: "#183D68",
-            transition: 'background-color 0.3s ease-in-out, transform 0.3s ease-in-out',
-            '&:hover': {
-              backgroundColor: '#2B4E77',
-              transform: 'scale(1.05)'
+            transition:
+              "background-color 0.3s ease-in-out, transform 0.3s ease-in-out",
+            "&:hover": {
+              backgroundColor: "#2B4E77",
+              transform: "scale(1.05)",
             },
-            animation: 'fadeInUp 2s ease-in-out',
-            '@keyframes fadeInUp': {
-              '0%': { opacity: 0, transform: 'translateY(20px)' },
-              '100%': { opacity: 1, transform: 'translateY(0)' }
-            }
+            animation: "fadeInUp 2s ease-in-out",
+            "@keyframes fadeInUp": {
+              "0%": { opacity: 0, transform: "translateY(20px)" },
+              "100%": { opacity: 1, transform: "translateY(0)" },
+            },
           }}
           onClick={handleConsult}
         >
@@ -359,16 +362,17 @@ export default function Formulario() {
             width: "50%",
             mx: "auto",
             backgroundColor: "#183D68",
-            transition: 'background-color 0.3s ease-in-out, transform 0.3s ease-in-out',
-            '&:hover': {
-              backgroundColor: '#2B4E77',
-              transform: 'scale(1.05)'
+            transition:
+              "background-color 0.3s ease-in-out, transform 0.3s ease-in-out",
+            "&:hover": {
+              backgroundColor: "#2B4E77",
+              transform: "scale(1.05)",
             },
-            animation: 'fadeInUp 2s ease-in-out',
-            '@keyframes fadeInUp': {
-              '0%': { opacity: 0, transform: 'translateY(20px)' },
-              '100%': { opacity: 1, transform: 'translateY(0)' }
-            }
+            animation: "fadeInUp 2s ease-in-out",
+            "@keyframes fadeInUp": {
+              "0%": { opacity: 0, transform: "translateY(20px)" },
+              "100%": { opacity: 1, transform: "translateY(0)" },
+            },
           }}
           onClick={handleSubmit}
         >
