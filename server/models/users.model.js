@@ -1,10 +1,66 @@
 import { pool } from '../utils/db.js';
 
-// Función para devolver tabla 
-export const getUsersRequest = async () => {
-    const [rows] = await pool.query('SELECT * FROM asistencia');
-    return rows;
+// Función para obtener participantes o ponentes con sus asistencias y usuarios responsables
+export const getUsersRequest = async (tabla) => {
+    try {
+        let sql;
+        if (tabla === 'participantes') {
+            sql = `
+                SELECT 
+                    p.id AS id,
+                    p.email AS email,
+                    p.apellidos AS apellidos,
+                    p.nombres AS nombres,
+                    p.tipoDoc AS tipo_documento,
+                    p.nroDoc AS numero_documento,
+                    p.telefono AS telefono,
+                    p.tipoUni AS tipo_universidad,
+                    p.universidad AS universidad,
+                    a.hora AS hora_asistencia,
+                    a.fecha AS fecha_asistencia,
+                    u.usuario AS responsable_usuario
+                FROM 
+                    participantes p
+                LEFT JOIN 
+                    asistencia a ON p.id = a.idAsisPa
+                LEFT JOIN 
+                    users u ON a.responsable = u.id
+            `;
+        } else if (tabla === 'ponentes') {
+            sql = `
+                SELECT 
+                    pe.id AS id,
+                    pe.denom AS denominacion,
+                    pe.grado AS grado,
+                    pe.apellidos AS apellidos,
+                    pe.nombres AS nombres,
+                    pe.nroDoc AS numero_documento,
+                    pe.telefono AS telefono,
+                    pe.tipoUni AS tipo_universidad,
+                    pe.universidad AS universidad,
+                    pe.presentacion AS presentacion,
+                    a.hora AS hora_asistencia,
+                    a.fecha AS fecha_asistencia,
+                    u.usuario AS responsable_usuario
+                FROM 
+                    ponentes pe
+                LEFT JOIN 
+                    asistencia a ON pe.id = a.idAsisPo
+                LEFT JOIN 
+                    users u ON a.responsable = u.id
+            `;
+        } else {
+            throw new Error('Tabla no válida. Debe ser "participantes" o "ponentes".');
+        }
+
+        const [rows] = await pool.query(sql);
+        return rows;
+    } catch (error) {
+        console.error('Error en getUsersRequest:', error);
+        throw error;
+    }
 };
+
 
 
 // Función para buscar un usuario por Doc Identidad

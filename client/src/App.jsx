@@ -19,10 +19,9 @@ function App() {
         element={<ProtectedRoute validate={isAuthenticated} to={"login"} />}
       >
         <Route path="" element={<Home />}>
-          <Route path="" element={<Asistencia />}>
-            <Route path="table" element={<Tabla />} />
-          </Route>
+          <Route path="" element={<Asistencia />} />
           <Route path="register" element={<UserForm />} />
+          <Route path="table" element={<Tabla />} />
         </Route>
       </Route>
     </Routes>

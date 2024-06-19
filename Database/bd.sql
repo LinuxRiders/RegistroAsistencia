@@ -1,5 +1,6 @@
 USE railway;
 
+
 -- /////////////// LOGIN ////////////////////////
 
 CREATE TABLE tokens(
@@ -16,18 +17,21 @@ CREATE TABLE users(
 );
 
 
-CREATE TABLE asistencia(    
+CREATE TABLE asistencia (
     id INT AUTO_INCREMENT PRIMARY KEY,
-     asistio BOOLEAN NOT NULL DEFAULT false,
+    asistio BOOLEAN NOT NULL DEFAULT false,
     hora TIME NOT NULL,
     fecha DATE NOT NULL,
     responsable INT NOT NULL,
-    FOREIGN KEY (responsable) REFERENCES users(id)
-    ON UPDATE CASCADE
+    idAsisPa INT,
+    idAsisPo INT,
+    FOREIGN KEY (responsable) REFERENCES users(id) ON UPDATE CASCADE,
+    FOREIGN KEY (idAsisPa) REFERENCES participantes(id) ON DELETE CASCADE,
+    FOREIGN KEY (idAsisPo) REFERENCES ponentes(id) ON DELETE CASCADE
 );
 
 CREATE TABLE participantes(    
-	id	INT,
+	id	INT PRIMARY KEY,
     email	VARCHAR(512),
     apellidos	VARCHAR(512),
     nombres	VARCHAR(512),
@@ -38,14 +42,8 @@ CREATE TABLE participantes(
     universidad	VARCHAR(512)
 );
 
-ALTER TABLE ponentes
-ADD COLUMN idAsis INT,
-ADD FOREIGN KEY (idAsis) REFERENCES asistencia(id)
-ON UPDATE CASCADE
-ON DELETE CASCADE;
-
 CREATE TABLE ponentes(    
-	id	INT,
+	id	INT PRIMARY KEY,
     denom	VARCHAR(512),
     grado	VARCHAR(512),
 	apellidos	VARCHAR(512),
@@ -58,11 +56,6 @@ CREATE TABLE ponentes(
 );
 
 
-
-
-DROP TABLE asistencia;
-select * FROM ponentes;
-select * FROM participantes;
 --  DROP TRIGGER actualizar_asistencia;
 -- TRIGGER
 DELIMITER //
@@ -83,9 +76,9 @@ DELIMITER ;
 
 
 -- PARTICIPANTES
--- SET SQL_SAFE_UPDATES = 1; Desactivar Safety Mode
+-- SET SQL_SAFE_UPDATES = 0; Desactivar Safety Mode
 
--- UPDATE ponentes SET apellidos = UPPER(apellidos); Cambiar a mayusculas
+-- UPDATE participantes SET apellidos = UPPER(apellidos); Cambiar a mayusculas
 
 INSERT INTO participantes (id, email, apellidos, nombres, tipoDoc, nroDoc, telefono, tipoUni, universidad) VALUES
 	('1', 'jtejada@unc.edu.pe', 'TEJADA CAMPOS ', 'JORGE NELSON', 'DNI', '26709691', '950082700', 'Público', 'Universidad Nacional de Cajamarca'),

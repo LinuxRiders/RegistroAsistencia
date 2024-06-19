@@ -1,12 +1,8 @@
 import * as React from "react";
-import { styled, useTheme, ThemeProvider, createTheme } from "@mui/material/styles";
-import Box from "@mui/material/Box";
+import { styled, useTheme, ThemeProvider } from "@mui/material/styles";
 import MuiDrawer from "@mui/material/Drawer";
-import MuiAppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
 import List from "@mui/material/List";
 import CssBaseline from "@mui/material/CssBaseline";
-import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -17,24 +13,11 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import UserSettings from "./components/UserSettings";
-import PeopleIcon from '@mui/icons-material/People';
-import AssignmentIcon from '@mui/icons-material/Assignment';
-import TableChartIcon from '@mui/icons-material/TableChart';
-
-// Crear un tema personalizado
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: 'rgba(25, 77, 132, 1)',
-    },
-    secondary: {
-      main: '#ffffff', // Blanco
-    },
-  },
-  typography: {
-    fontFamily: 'Roboto, sans-serif',
-  },
-});
+import PeopleIcon from "@mui/icons-material/People";
+import AssignmentIcon from "@mui/icons-material/Assignment";
+import TableChartIcon from "@mui/icons-material/TableChart";
+import { Link } from "react-router-dom";
+import { useAuth } from "../../context/AuthProvider";
 
 const drawerWidth = 240;
 
@@ -45,7 +28,7 @@ const openedMixin = (theme) => ({
     duration: theme.transitions.duration.enteringScreen,
   }),
   overflowX: "hidden",
-  background: 'rgba(25, 77, 132, 1)',
+  background: "rgba(25, 77, 132, 1)",
   color: theme.palette.secondary.main,
 });
 
@@ -59,7 +42,7 @@ const closedMixin = (theme) => ({
   [theme.breakpoints.up("sm")]: {
     width: `calc(${theme.spacing(8)} + 1px)`,
   },
-  background: 'rgba(25, 77, 132, 1)',
+  background: "rgba(25, 77, 132, 1)",
   color: theme.palette.secondary.main,
 });
 
@@ -99,14 +82,25 @@ export default function NavBar() {
     setOpen(false);
   };
 
+  const { getUser } = useAuth();
+
+  const userRole = getUser().role;
+
+  // Obtener el array de opciones según el rol del usuario
+  const userOptions = options[userRole];
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Drawer variant="permanent" open={open}>
         <DrawerHeader sx={{ justifyContent: open ? "flex-end" : "center" }}>
           {open ? (
-            <IconButton onClick={handleDrawerClose} sx={{ color: 'white' }}>
-              {theme.direction === "rtl" ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+            <IconButton onClick={handleDrawerClose} sx={{ color: "white" }}>
+              {theme.direction === "rtl" ? (
+                <ChevronRightIcon />
+              ) : (
+                <ChevronLeftIcon />
+              )}
             </IconButton>
           ) : (
             <IconButton
@@ -114,7 +108,7 @@ export default function NavBar() {
               aria-label="open drawer"
               onClick={handleDrawerOpen}
             >
-              <MenuIcon sx={{ color: 'white' }} />
+              <MenuIcon sx={{ color: "white" }} />
             </IconButton>
           )}
         </DrawerHeader>
@@ -126,7 +120,7 @@ export default function NavBar() {
             alignItems: "center",
             justifyContent: "center",
             textAlign: "center",
-            color: 'white',
+            color: "white",
           }}
         >
           <ListItem
@@ -139,10 +133,19 @@ export default function NavBar() {
           >
             <UserSettings /> {/* Contenido que deseas centrar */}
           </ListItem>
-
-          {["Usuarios", "Registro", "Tabla"].map((text, index) => (
+          {userOptions.map((text, index) => (
             <ListItem key={text} disablePadding sx={{ display: "block" }}>
               <ListItemButton
+                component={Link}
+                to={
+                  text === "Usuarios"
+                    ? "register"
+                    : text === "Registro"
+                    ? ""
+                    : text === "Tabla"
+                    ? "table"
+                    : ""
+                }
                 sx={[
                   {
                     minHeight: 48,
@@ -162,7 +165,7 @@ export default function NavBar() {
                     {
                       minWidth: 0,
                       justifyContent: "center",
-                      color: 'white',
+                      color: "white",
                     },
                     open
                       ? {
@@ -173,7 +176,13 @@ export default function NavBar() {
                         },
                   ]}
                 >
-                  {index === 0 ? <PeopleIcon /> : index === 1 ? <AssignmentIcon /> : <TableChartIcon />}
+                  {text === "Usuarios" ? (
+                    <PeopleIcon />
+                  ) : text === "Registro" ? (
+                    <AssignmentIcon />
+                  ) : (
+                    <TableChartIcon />
+                  )}
                 </ListItemIcon>
                 <ListItemText
                   primary={text}
@@ -181,7 +190,7 @@ export default function NavBar() {
                     open
                       ? {
                           opacity: 1,
-                          color: 'white',
+                          color: "white",
                         }
                       : {
                           opacity: 0,
@@ -197,3 +206,9 @@ export default function NavBar() {
     </ThemeProvider>
   );
 }
+
+const options = {
+  admin: ["Usuarios", "Registro", "Tabla"],
+  editor: ["Registro", "Tabla"],
+  registrador: ["Registro"],
+};

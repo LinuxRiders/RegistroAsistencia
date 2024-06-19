@@ -25,15 +25,6 @@ export default function Asistencia() {
           backgroundColor: "#222222", //Here
         }}
       >
-        <Button
-          component={Link}
-          to={"register"}
-          replace
-          variant="contained"
-          startIcon={<GroupAddIcon />}
-        >
-          Create User
-        </Button>
         <Box
           component={Paper}
           elevation={10}
@@ -112,7 +103,7 @@ export default function Asistencia() {
 
           {showFormP ? <FormularioP /> : <Formulario />}
         </Box>
-        <Button
+        {/* <Button
           component={Link}
           to={table ? "/" : "table"}
           replace
@@ -122,9 +113,9 @@ export default function Asistencia() {
           sx={{ p: 2, width: "auto", my: 2 }}
         >
           <ExpandMoreIcon />
-        </Button>
+        </Button> */}
 
-        <Outlet />
+        {/* <Outlet /> */}
       </Box>
     </>
   );

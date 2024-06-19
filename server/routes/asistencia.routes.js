@@ -10,7 +10,7 @@ const router = Router();
 
 router.post('/search', searchUser);
 router.post('/register', registerUser);
-router.get('/users', getUsers);
+router.post('/users', getUsers);
 
 router.get('/', (req, res) => {
     res.send("Chido Perrito");

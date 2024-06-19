@@ -52,7 +52,9 @@ export const searchUser = async (req, res) => {
 export const getUsers = async (req, res) => {
     try {
 
-        const rows = await getUsersRequest();
+        const { table } = req.body;
+
+        const rows = await getUsersRequest(table);
 
         res.status(200).json(
             {

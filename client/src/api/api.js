@@ -78,10 +78,11 @@ export const registerUserRequest = async (doc) => {
 
 export const getUsersRequest = async (doc) => {
     return await fetch(`${BASE_URL}/api/users`, {
-        method: 'GET',
+        method: 'POST',
         headers: {
             "Content-Type": "application/json",
-        }
+        },
+        body: JSON.stringify(doc)
     });
 }
 
