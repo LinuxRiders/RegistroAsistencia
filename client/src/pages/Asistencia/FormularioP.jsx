@@ -13,13 +13,15 @@ const FormGrid = styled(Grid)(() => ({
 
     export default function FormularioP() {
     const [nroDoc, setnroDoc] = useState("");
+    const [celular, setCelular] = useState("");
     const [nombres, setNombres] = useState("");
-    const [ticket, setTicket] = useState("");
-    const [capitulo, setCapitulo] = useState("");
-    const [asociacion, setAsociacion] = useState("");
-    const [inscrito, setInscrito] = useState("");
-    const [sede, setSede] = useState("");
-
+    const [apellidos, setApellidos] = useState("");
+    const [present, setPresent] = useState("");
+    const [grado, setGrado] = useState("");
+    const [tipoUni, setTipoUni] = useState("");
+    const [denominacion, setDenominacion] = useState("");
+    const [universidad, setUniversidad] = useState("");
+        
     const [errorResponse, setErrorResponse] = useState("");
     const [messageResponse, setMessageResponse] = useState("");
     const [consult, setConsult] = useState(false);
@@ -39,21 +41,25 @@ const FormGrid = styled(Grid)(() => ({
 
         if (json.error) {
             setConsult(false);
+            setCelular("");
             setNombres("");
-            setTicket("");
-            setCapitulo("");
-            setAsociacion("");
-            setInscrito("");
-            setSede("");
+            setApellidos("");
+            setPresent("");
+            setGrado("");
+            setTipoUni("");
+            setDenominacion("");
+            setUniversidad("");
         }
 
         if (json.user) {
+            setCelular(json.user.Celular);
             setNombres(json.user.Nombres);
-            setTicket(json.user.Ticket);
-            setCapitulo(json.user.Capitulo);
-            setAsociacion(json.user.Asociacion);
-            setInscrito(json.user.Inscrito);
-            setSede(json.user.Sede);
+            setApellidos(json.user.Apellidos);
+            setPresent(json.user.Present);
+            setGrado(json.userGrado);
+            setTipoUni(jsonTipoUni.TipoUni);
+            setDenominacion(json.user.Denominacion);
+            setUniversidad(json.user.Universidad);
         }
         } catch (error) {}
     }
@@ -68,13 +74,14 @@ const FormGrid = styled(Grid)(() => ({
         if (response.ok) {
             setMessageResponse(json.message);
             if (json.message) {
-            setConsult(false);
+            setCelular("");
             setNombres("");
-            setTicket("");
-            setCapitulo("");
-            setAsociacion("");
-            setInscrito("");
-            setSede("");
+            setApellidos("");
+            setPresent("");
+            setGrado("");
+            setTipoUni("");
+            setDenominacion("");
+            setUniversidad("");
             }
             goTo("/", { replace: true });
         }
@@ -94,29 +101,7 @@ const FormGrid = styled(Grid)(() => ({
         >
         </Box>
 
-        {!!errorResponse && (
-            <FormGrid item xs={12}>
-            <Alert severity="error" sx={{ width: "90%", my: 2, mx: "auto" }}>
-                {errorResponse}
-            </Alert>
-            </FormGrid>
-        )}
-
-        {!!messageResponse && (
-            <FormGrid item xs={12}>
-            <Alert severity="success" sx={{ width: "90%", my: 2, mx: "auto" }}>
-                {messageResponse}
-            </Alert>
-            </FormGrid>
-        )}
-
-        {inscrito === "" && consult && (
-            <FormGrid item xs={12}>
-            <Alert severity="error" sx={{ width: "90%", my: 2, mx: "auto" }}>
-                El ponente no está Inscrito
-            </Alert>
-            </FormGrid>
-        )}
+        
 
         <FormGrid item xs={12} md={6}>
             <TextField
@@ -127,14 +112,13 @@ const FormGrid = styled(Grid)(() => ({
             value={nroDoc}
             onChange={(e) => setnroDoc(e.target.value)}
             InputProps={{
-                style: { color: 'white' }
+                style: { color: "#F3F3F3" },
             }}
             InputLabelProps={{
-                style: { color: 'white' }
+                style: { color: "#F3F3F3" },
+                
             }}
             sx={{
-                border: "0.5px solid white",
-                borderRadius: "8px", //Here
                 animation: "slideInRight 1s forwards",
                 "@keyframes slideInRight": {
                 "0%": { transform: "translateX(-100%)" },
@@ -151,15 +135,16 @@ const FormGrid = styled(Grid)(() => ({
             label="Celular"
             type="number"
             autoFocus
-            value={ticket}
-            InputLabelProps={{
-                shrink: Boolean(nombres),
-                style: { color: 'white' }
+            value={celular}
+            InputProps={{
+                style: { color: "#F3F3F3" },
             }}
-            onChange={(e) => setTicket(e.target.value)}
+            InputLabelProps={{
+                style: { color: "#F3F3F3" },
+                
+            }}
+            onChange={(e) => setCelular(e.target.value)}
             sx={{
-                border: "0.5px solid white",
-                borderRadius: "8px", //Here
                 animation: "slideInRight 1s forwards",
                 "@keyframes slideInRight": {
                 "0%": { transform: "translateX(-100%)" },
@@ -177,13 +162,14 @@ const FormGrid = styled(Grid)(() => ({
             autoFocus
             value={nombres}
             onChange={(e) => setNombres(e.target.value)}
+            InputProps={{
+                style: { color: "#F3F3F3" },
+            }}
             InputLabelProps={{
-                shrink: Boolean(nombres),
-                style: { color: "white" },
+                style: { color: "#F3F3F3" },
+                
             }}
             sx={{
-                border: "0.5px solid white",
-                borderRadius: "8px", //Here
                 animation: "fadeInUp 2s ease-in-out",
                 "@keyframes fadeInUp": {
                 "0%": { opacity: 0, transform: "translateY(20px)" },
@@ -199,15 +185,16 @@ const FormGrid = styled(Grid)(() => ({
             fullWidth
             label="Apellidos"
             autoFocus
-            value={nombres}
-            onChange={(e) => setNombres(e.target.value)}
+            value={apellidos}
+            onChange={(e) => setApellidos(e.target.value)}
+            InputProps={{
+                style: { color: "#F3F3F3" },
+            }}
             InputLabelProps={{
-                shrink: Boolean(nombres),
-                style: { color: "white" },
+                style: { color: "#F3F3F3" },
+                
             }}
             sx={{
-                border: "0.5px solid white",
-                borderRadius: "8px", //Here
                 animation: "fadeInUp 2s ease-in-out",
                 "@keyframes fadeInUp": {
                 "0%": { opacity: 0, transform: "translateY(20px)" },
@@ -223,15 +210,16 @@ const FormGrid = styled(Grid)(() => ({
             fullWidth
             label="Nombre de Presentación"
             autoFocus
-            value={nombres}
-            onChange={(e) => setNombres(e.target.value)}
+            value={present}
+            onChange={(e) => setPresent(e.target.value)}
+            InputProps={{
+                style: { color: "#F3F3F3" },
+            }}
             InputLabelProps={{
-                shrink: Boolean(nombres),
-                style: { color: 'white' }
+                style: { color: "#F3F3F3" },
+                
             }}
             sx={{
-                border: "0.5px solid white",
-                borderRadius: "8px", //Here
                 animation: "fadeInUp 2s ease-in-out",
                 "@keyframes fadeInUp": {
                 "0%": { opacity: 0, transform: "translateY(20px)" },
@@ -247,14 +235,16 @@ const FormGrid = styled(Grid)(() => ({
             fullWidth
             label="Grado"
             autoFocus
-            value={capitulo}
-            InputLabelProps={{
-                shrink: Boolean(nombres),
-                style: { color: 'white' }
+            value={grado}
+            InputProps={{
+                style: { color: "#F3F3F3" },
             }}
+            InputLabelProps={{
+                style: { color: "#F3F3F3" },
+                
+            }}
+            onChange={(e) => setGrado(e.target.value)}
             sx={{
-                border: "0.5px solid white",
-                borderRadius: "8px", //Here
                 animation: "slideInRight 1s forwards",
                 "@keyframes slideInRight": {
                 "0%": { transform: "translateX(-100%)" },
@@ -270,14 +260,16 @@ const FormGrid = styled(Grid)(() => ({
             fullWidth
             label="Tipo Universidad"
             autoFocus
-            value={asociacion}
-            InputLabelProps={{
-                shrink: Boolean(nombres),
-                style: { color: 'white' }
+            value={tipoUni}
+            InputProps={{
+                style: { color: "#F3F3F3" },
             }}
+            InputLabelProps={{
+                style: { color: "#F3F3F3" },
+                
+            }}
+            onChange={(e) => setTipoUni(e.target.value)}
             sx={{
-                border: "0.5px solid white",
-                borderRadius: "8px", //Here
                 animation: "slideInRight 1s forwards",
                 "@keyframes slideInRight": {
                 "0%": { transform: "translateX(-100%)" },
@@ -293,14 +285,16 @@ const FormGrid = styled(Grid)(() => ({
             fullWidth
             label="Denominación"
             autoFocus
-            value={inscrito}
-            InputLabelProps={{
-                shrink: Boolean(nombres),
-                style: { color: 'white' }
+            value={denominacion}
+            InputProps={{
+                style: { color: "#F3F3F3" },
             }}
+            InputLabelProps={{
+                style: { color: "#F3F3F3" },
+                
+            }}
+            onChange={(e) => setDenominacion(e.target.value)}
             sx={{
-                border: "0.5px solid white",
-                borderRadius: "8px", //Here
                 animation: "slideInRight 1s forwards",
                 "@keyframes slideInRight": {
                 "0%": { transform: "translateX(-100%)" },
@@ -316,14 +310,16 @@ const FormGrid = styled(Grid)(() => ({
             fullWidth
             label="Universidad"
             autoFocus
-            value={sede}
-            InputLabelProps={{
-                shrink: Boolean(nombres),
-                style: { color: 'white' }
+            value={universidad}
+            InputProps={{
+                style: { color: "#F3F3F3" },
             }}
+            InputLabelProps={{
+                style: { color: "#F3F3F3" },
+                
+            }}
+            onChange={(e) => setUniversidad(e.target.value)} //Question Here
             sx={{
-                border: "0.5px solid white",
-                borderRadius: "8px", //Here
                 animation: "slideInRight 1s forwards",
                 "@keyframes slideInRight": {
                 "0%": { transform: "translateX(-100%)" },
@@ -363,7 +359,6 @@ const FormGrid = styled(Grid)(() => ({
 
         <FormGrid item xs={6}>
             <Button
-            disabled={inscrito === "" || ticket === 0}
             type="submit"
             fullWidth
             variant="contained"
