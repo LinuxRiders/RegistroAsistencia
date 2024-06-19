@@ -38,18 +38,28 @@ export default function Formulario() {
     setMessageResponse("");
 
     try {
-      if (nroDoc != user.nroDoc) {
-        setNombres("");
-      }
-      if (nombres != user.nombres) {
-        setNroDoc("");
+      let response;
+      const searchParams = [
+        { key: "nroDoc", value: nroDoc },
+        { key: "nombres", value: nombres },
+        { key: "apellidos", value: apellidos },
+        // Añade aquí más campos si es necesario
+      ];
+
+      for (const param of searchParams) {
+        if (param.value && param.value !== user[param.key]) {
+          response = await searchUserRequest({
+            table: "participantes",
+            [param.key]: param.value,
+          });
+          break;
+        }
       }
 
-      const response = await searchUserRequest({
-        table: "participantes",
-        nroDoc,
-        nombres,
-      });
+      if (!response) {
+        console.error("Respuesta Vacía");
+        return;
+      }
 
       const json = await response.json();
 
@@ -60,6 +70,7 @@ export default function Formulario() {
       if (json.error) {
         setConsult(false);
 
+        setNroDoc("");
         setEmail("");
         setNombres("");
         setApellidos("");
@@ -70,13 +81,14 @@ export default function Formulario() {
       }
 
       if (json.user) {
-        setEmail(json.user.email);
-        setNombres(json.user.nombres);
-        setApellidos(json.user.apellidos);
-        setTipoDoc(json.user.tipoDoc);
-        setTelefono(json.user.telefono);
-        setTipoUni(json.user.tipoUni);
-        setUniversidad(json.user.universidad);
+        setNroDoc(json.user.nroDoc ?? "");
+        setEmail(json.user.email ?? "");
+        setNombres(json.user.nombres ?? "");
+        setApellidos(json.user.apellidos ?? "");
+        setTipoDoc(json.user.tipoDoc ?? "");
+        setTelefono(json.user.telefono ?? "");
+        setTipoUni(json.user.tipoUni ?? "");
+        setUniversidad(json.user.universidad ?? "");
         setUser(json.user);
       }
     } catch (error) {}
@@ -131,26 +143,26 @@ export default function Formulario() {
           InputLabelProps={{
             style: { color: "white" },
             sx: {
-              backgroundColor: 'transparent',
-              padding: '0 4px',
-              transform: 'translate(14px, 12px) scale(1)',
-              '&.MuiInputLabel-shrink': {
-                transform: 'translate(14px, -6px) scale(0.75)',
-                backgroundColor: 'transparent',
-              }
+              backgroundColor: "transparent",
+              padding: "0 4px",
+              transform: "translate(14px, 12px) scale(1)",
+              "&.MuiInputLabel-shrink": {
+                transform: "translate(14px, -6px) scale(0.75)",
+                backgroundColor: "transparent",
+              },
             },
           }}
           InputProps={{
             sx: {
               color: "white",
-              '& .MuiOutlinedInput-notchedOutline': {
-                borderColor: 'white',
+              "& .MuiOutlinedInput-notchedOutline": {
+                borderColor: "white",
               },
-              '&:hover .MuiOutlinedInput-notchedOutline': {
-                borderColor: 'white',
+              "&:hover .MuiOutlinedInput-notchedOutline": {
+                borderColor: "white",
               },
-              '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                borderColor: 'white',
+              "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                borderColor: "white",
               },
             },
           }}
@@ -176,26 +188,26 @@ export default function Formulario() {
           InputLabelProps={{
             style: { color: "white" },
             sx: {
-              backgroundColor: 'transparent',
-              padding: '0 4px',
-              transform: 'translate(14px, 12px) scale(1)',
-              '&.MuiInputLabel-shrink': {
-                transform: 'translate(14px, -6px) scale(0.75)',
-                backgroundColor: 'transparent',
-              }
+              backgroundColor: "transparent",
+              padding: "0 4px",
+              transform: "translate(14px, 12px) scale(1)",
+              "&.MuiInputLabel-shrink": {
+                transform: "translate(14px, -6px) scale(0.75)",
+                backgroundColor: "transparent",
+              },
             },
           }}
           InputProps={{
             sx: {
               color: "white",
-              '& .MuiOutlinedInput-notchedOutline': {
-                borderColor: 'white',
+              "& .MuiOutlinedInput-notchedOutline": {
+                borderColor: "white",
               },
-              '&:hover .MuiOutlinedInput-notchedOutline': {
-                borderColor: 'white',
+              "&:hover .MuiOutlinedInput-notchedOutline": {
+                borderColor: "white",
               },
-              '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                borderColor: 'white',
+              "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                borderColor: "white",
               },
             },
           }}
@@ -217,30 +229,30 @@ export default function Formulario() {
           label="Nombres"
           autoFocus
           value={nombres}
-          onChange={(e) => setNombres(e.target.value)}
+          onChange={(e) => setNombres(e.target.value.toUpperCase())}
           InputLabelProps={{
             style: { color: "white" },
             sx: {
-              backgroundColor: 'transparent',
-              padding: '0 4px',
-              transform: 'translate(14px, 12px) scale(1)',
-              '&.MuiInputLabel-shrink': {
-                transform: 'translate(14px, -6px) scale(0.75)',
-                backgroundColor: 'transparent',
-              }
+              backgroundColor: "transparent",
+              padding: "0 4px",
+              transform: "translate(14px, 12px) scale(1)",
+              "&.MuiInputLabel-shrink": {
+                transform: "translate(14px, -6px) scale(0.75)",
+                backgroundColor: "transparent",
+              },
             },
           }}
           InputProps={{
             sx: {
               color: "white",
-              '& .MuiOutlinedInput-notchedOutline': {
-                borderColor: 'white',
+              "& .MuiOutlinedInput-notchedOutline": {
+                borderColor: "white",
               },
-              '&:hover .MuiOutlinedInput-notchedOutline': {
-                borderColor: 'white',
+              "&:hover .MuiOutlinedInput-notchedOutline": {
+                borderColor: "white",
               },
-              '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                borderColor: 'white',
+              "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                borderColor: "white",
               },
             },
           }}
@@ -262,30 +274,30 @@ export default function Formulario() {
           label="Apellidos"
           autoFocus
           value={apellidos}
-          onChange={(e) => setApellidos(e.target.value)}
+          onChange={(e) => setApellidos(e.target.value.toUpperCase())}
           InputLabelProps={{
             style: { color: "white" },
             sx: {
-              backgroundColor: 'transparent',
-              padding: '0 4px',
-              transform: 'translate(14px, 12px) scale(1)',
-              '&.MuiInputLabel-shrink': {
-                transform: 'translate(14px, -6px) scale(0.75)',
-                backgroundColor: 'transparent',
-              }
+              backgroundColor: "transparent",
+              padding: "0 4px",
+              transform: "translate(14px, 12px) scale(1)",
+              "&.MuiInputLabel-shrink": {
+                transform: "translate(14px, -6px) scale(0.75)",
+                backgroundColor: "transparent",
+              },
             },
           }}
           InputProps={{
             sx: {
               color: "white",
-              '& .MuiOutlinedInput-notchedOutline': {
-                borderColor: 'white',
+              "& .MuiOutlinedInput-notchedOutline": {
+                borderColor: "white",
               },
-              '&:hover .MuiOutlinedInput-notchedOutline': {
-                borderColor: 'white',
+              "&:hover .MuiOutlinedInput-notchedOutline": {
+                borderColor: "white",
               },
-              '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                borderColor: 'white',
+              "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                borderColor: "white",
               },
             },
           }}
@@ -311,26 +323,26 @@ export default function Formulario() {
           InputLabelProps={{
             style: { color: "white" },
             sx: {
-              backgroundColor: 'transparent',
-              padding: '0 4px',
-              transform: 'translate(14px, 12px) scale(1)',
-              '&.MuiInputLabel-shrink': {
-                transform: 'translate(14px, -6px) scale(0.75)',
-                backgroundColor: 'transparent',
-              }
+              backgroundColor: "transparent",
+              padding: "0 4px",
+              transform: "translate(14px, 12px) scale(1)",
+              "&.MuiInputLabel-shrink": {
+                transform: "translate(14px, -6px) scale(0.75)",
+                backgroundColor: "transparent",
+              },
             },
           }}
           InputProps={{
             sx: {
               color: "white",
-              '& .MuiOutlinedInput-notchedOutline': {
-                borderColor: 'white',
+              "& .MuiOutlinedInput-notchedOutline": {
+                borderColor: "white",
               },
-              '&:hover .MuiOutlinedInput-notchedOutline': {
-                borderColor: 'white',
+              "&:hover .MuiOutlinedInput-notchedOutline": {
+                borderColor: "white",
               },
-              '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                borderColor: 'white',
+              "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                borderColor: "white",
               },
             },
           }}
@@ -357,26 +369,26 @@ export default function Formulario() {
           InputLabelProps={{
             style: { color: "white" },
             sx: {
-              backgroundColor: 'transparent',
-              padding: '0 4px',
-              transform: 'translate(14px, 12px) scale(1)',
-              '&.MuiInputLabel-shrink': {
-                transform: 'translate(14px, -6px) scale(0.75)',
-                backgroundColor: 'transparent',
-              }
+              backgroundColor: "transparent",
+              padding: "0 4px",
+              transform: "translate(14px, 12px) scale(1)",
+              "&.MuiInputLabel-shrink": {
+                transform: "translate(14px, -6px) scale(0.75)",
+                backgroundColor: "transparent",
+              },
             },
           }}
           InputProps={{
             sx: {
               color: "white",
-              '& .MuiOutlinedInput-notchedOutline': {
-                borderColor: 'white',
+              "& .MuiOutlinedInput-notchedOutline": {
+                borderColor: "white",
               },
-              '&:hover .MuiOutlinedInput-notchedOutline': {
-                borderColor: 'white',
+              "&:hover .MuiOutlinedInput-notchedOutline": {
+                borderColor: "white",
               },
-              '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                borderColor: 'white',
+              "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                borderColor: "white",
               },
             },
           }}
@@ -391,7 +403,6 @@ export default function Formulario() {
         />
       </FormGrid>
 
-
       <FormGrid item xs={12} md={8}>
         <TextField
           required
@@ -403,26 +414,26 @@ export default function Formulario() {
           InputLabelProps={{
             style: { color: "white" },
             sx: {
-              backgroundColor: 'transparent',
-              padding: '0 4px',
-              transform: 'translate(14px, 12px) scale(1)',
-              '&.MuiInputLabel-shrink': {
-                transform: 'translate(14px, -6px) scale(0.75)',
-                backgroundColor: 'transparent',
-              }
+              backgroundColor: "transparent",
+              padding: "0 4px",
+              transform: "translate(14px, 12px) scale(1)",
+              "&.MuiInputLabel-shrink": {
+                transform: "translate(14px, -6px) scale(0.75)",
+                backgroundColor: "transparent",
+              },
             },
           }}
           InputProps={{
             sx: {
               color: "white",
-              '& .MuiOutlinedInput-notchedOutline': {
-                borderColor: 'white',
+              "& .MuiOutlinedInput-notchedOutline": {
+                borderColor: "white",
               },
-              '&:hover .MuiOutlinedInput-notchedOutline': {
-                borderColor: 'white',
+              "&:hover .MuiOutlinedInput-notchedOutline": {
+                borderColor: "white",
               },
-              '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                borderColor: 'white',
+              "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                borderColor: "white",
               },
             },
           }}
@@ -448,26 +459,26 @@ export default function Formulario() {
           InputLabelProps={{
             style: { color: "white" },
             sx: {
-              backgroundColor: 'transparent',
-              padding: '0 4px',
-              transform: 'translate(14px, 12px) scale(1)',
-              '&.MuiInputLabel-shrink': {
-                transform: 'translate(14px, -6px) scale(0.75)',
-                backgroundColor: 'transparent',
-              }
+              backgroundColor: "transparent",
+              padding: "0 4px",
+              transform: "translate(14px, 12px) scale(1)",
+              "&.MuiInputLabel-shrink": {
+                transform: "translate(14px, -6px) scale(0.75)",
+                backgroundColor: "transparent",
+              },
             },
           }}
           InputProps={{
             sx: {
               color: "white",
-              '& .MuiOutlinedInput-notchedOutline': {
-                borderColor: 'white',
+              "& .MuiOutlinedInput-notchedOutline": {
+                borderColor: "white",
               },
-              '&:hover .MuiOutlinedInput-notchedOutline': {
-                borderColor: 'white',
+              "&:hover .MuiOutlinedInput-notchedOutline": {
+                borderColor: "white",
               },
-              '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                borderColor: 'white',
+              "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                borderColor: "white",
               },
             },
           }}

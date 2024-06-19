@@ -1,9 +1,9 @@
-import { getUserByDNI, getUserByName, getUsersRequest, registerUserRequest } from "../models/users.model.js";
+import { getUserByDNI, getUserByName, getUserByApellido, getUsersRequest, registerUserRequest } from "../models/users.model.js";
 
 
 export const searchUser = async (req, res) => {
     try {
-        const { nroDoc, nombres, table } = req.body;
+        const { nroDoc, nombres, apellidos, table } = req.body;
 
         if (!!!table) {
             return res.status(400).json(
@@ -22,6 +22,10 @@ export const searchUser = async (req, res) => {
 
         if (nombres) {
             user = await getUserByName(nombres, table);
+        }
+
+        if (apellidos) {
+            user = await getUserByApellido(apellidos, table);
         }
 
         if (!user) {
