@@ -1,26 +1,34 @@
-import { getUserByDNI, getUsersRequest, registerUserRequest } from "../models/users.model.js";
+import { getUserByDNI, getUserByName, getUsersRequest, registerUserRequest } from "../models/users.model.js";
 
 
 export const searchUser = async (req, res) => {
     try {
-        const { DocIdentidad } = req.body;
+        const { nroDoc, nombres, table } = req.body;
 
-        if (!!!DocIdentidad) {
+        if (!!!table) {
             return res.status(400).json(
                 {
                     statusCode: 400,
-                    error: 'Campo Requerido'
+                    error: 'Tabla Requerida'
 
                 });
         }
 
-        const user = await getUserByDNI(DocIdentidad);
+        let user;
+
+        if (nroDoc) {
+            user = await getUserByDNI(nroDoc, table);
+        }
+
+        if (nombres) {
+            user = await getUserByName(nombres, table);
+        }
 
         if (!user) {
             return res.status(400).json(
                 {
                     statusCode: 400,
-                    error: 'El Ingeniero No Existe'
+                    error: 'El Usuario No Existe'
 
                 });
         }
@@ -28,7 +36,7 @@ export const searchUser = async (req, res) => {
         res.status(200).json(
             {
                 statusCode: 200,
-                message: 'Se Encontro el Ingeniero',
+                message: 'Se Encontro al Usuario',
                 user: user,
             });
 

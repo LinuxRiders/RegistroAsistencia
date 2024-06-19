@@ -4,7 +4,6 @@ import {
     refreshToken,
     refreshUser,
     signOut
-
 } from '../controllers/login.controller.js';
 import { authenticate } from '../utils/authenticate.js';
 
