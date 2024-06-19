@@ -20,6 +20,7 @@ export default function Asistencia() {
           textAlign: "center",
           p: 10,
           m: 0,
+          backgroundColor: "#222222", //Here
         }}
       >
         <Button
@@ -40,6 +41,7 @@ export default function Asistencia() {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
+            backgroundColor: "#174275", //Here
             p: 10,
           }}
         >
