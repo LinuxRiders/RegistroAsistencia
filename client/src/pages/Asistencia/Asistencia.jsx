@@ -5,9 +5,11 @@ import { Box, Button, Paper, Typography } from "@mui/material";
 import { Link, Outlet } from "react-router-dom";
 import { useState } from "react";
 import Formulario from "./Formulario";
+import FormularioP from "./FormularioP";
 
 export default function Asistencia() {
   const [table, setTable] = useState(false);
+  const [showFormP, setShowFormP] = useState(false);
 
   return (
     <>
@@ -32,6 +34,13 @@ export default function Asistencia() {
         >
           Create User
         </Button>
+        <Button
+            onClick={() => setShowFormP(!showFormP)}           //Here
+            variant="contained"
+            sx={{ mb: 3 , backgroundColor: "#2B4E77"}}
+          >
+            {showFormP ? "➤ Cambiar a Participante" : "➤ Cambiar a Ponente"}
+          </Button> 
         <Box
           component={Paper}
           elevation={10}
@@ -61,7 +70,7 @@ export default function Asistencia() {
           >
             <img
               src="https://i.ibb.co/h7gY1V0/1a.png"
-              alt="Consejo Departamental de Cusco"
+              alt="V Encuentro de Calidad Universitaria del Perú"
               style={{
                 width: 210,
                 height: "auto",
@@ -100,10 +109,11 @@ export default function Asistencia() {
               </Typography>
             </Box>
           </Box>
+          
+          
 
-          {/* FORMULARIOS */}
-          <Formulario />
-          {/* FORMULARIOS */}
+          {showFormP ? <FormularioP /> : <Formulario />}
+          
         </Box>
         <Button
           component={Link}

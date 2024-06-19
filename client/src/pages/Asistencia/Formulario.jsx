@@ -145,7 +145,7 @@ export default function Formulario() {
           value={nroDoc}
           onChange={(e) => setNroDoc(e.target.value)}
           InputProps={{
-            style: { color: "white" }, // Aquí se establece el color del texto de entrada
+            style: { color: "white" },
           }}
           InputLabelProps={{
             style: { color: "white" },
